@@ -1,0 +1,4 @@
+pandoc research_contents.md -s -c ../style.css -o research_contents.html
+pandoc aboutme.md -s -c ../style.css -o aboutme.html
+pandoc top.md -s -c ../style.css -o top.html
+mv *.html ../html/
