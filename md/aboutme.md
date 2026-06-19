@@ -1,11 +1,11 @@
 # 自己紹介
 
 ## 生年月日
-2000年11月5日
+2000年11月5日 (良い子の日)
 
 
 ## 連絡先
-sugimura.junki.38c@st.kyoto-u.ac.jp / 居室: 212号室
+sugimura.junki.38c@st.kyoto-u.ac.jp
 
 
 ## 経歴
