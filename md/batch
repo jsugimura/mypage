@@ -4,7 +4,7 @@ for md in *.md; do
   [ -e "${md}" ] || continue
 
 	html="${md%.md}.html"
-	pandoc ${md} -s -c ../style.css -o ${html}
+	pandoc ${md} -s -c style.css -o ${html}
 
 done
 
