@@ -1,3 +1,3 @@
 # Tips
 
-- [latexmkrcを用いた自動コンパイル](autotexcompile.html)
+- [latexmkrcを用いたtexの自動コンパイル](autotexcompile.html)
