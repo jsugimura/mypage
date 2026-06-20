@@ -12,8 +12,7 @@
 ## 目次
 - [自己紹介](aboutme.html)  
 - [研究内容](research_contents.html)  
-- Tips  
-    - [latexmkrcを用いた自動コンパイル](autotexcompile.html)
+- [Tips](tips.html)  
 - [自炊メモ](cooking.html)
 
 </div>
