@@ -8,4 +8,4 @@ for md in *.md; do
 
 done
 
-mv *.html ../html/
+mv *.html ../docs/
