@@ -10,9 +10,11 @@
 
 
 ## 目次
-[自己紹介](aboutme.html)  
-[研究内容](research_contents.html)  
-[自炊メモ](cooking.html)
+- [自己紹介](aboutme.html)  
+- [研究内容](research_contents.html)  
+- Tips  
+    - [latexmkrcを用いた自動コンパイル](autotexcompile.html)
+- [自炊メモ](cooking.html)
 
 </div>
 <img src="3axis.png" style="width: 300px; flex-shrink: 0;">

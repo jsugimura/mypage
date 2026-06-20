@@ -1,4 +1,11 @@
-pandoc research_contents.md -s -c ../style.css -o research_contents.html
-pandoc aboutme.md -s -c ../style.css -o aboutme.html
-pandoc top.md -s -c ../style.css -o top.html
+#!/bin/bash
+
+for md in *.md; do
+  [ -e "${md}" ] || continue
+
+	html="${md%.md}.html"
+	pandoc ${md} -s -c ../style.css -o ${html}
+
+done
+
 mv *.html ../html/
