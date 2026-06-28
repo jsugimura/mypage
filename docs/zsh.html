@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>zsh</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="zsh設定">zsh設定</h1>
+<h2 id="oh-my-zsh">Oh-my-zsh</h2>
+<ul>
+<li><a
+href="https://qiita.com/shun198/items/c60ec1cce9c9bf1e8c26">こちら</a>を参考にインストール。</li>
+</ul>
+<pre><code>&gt; git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k</code></pre>
+<ul>
+<li>新たな.zshrcが生成され、もともとあったものは、.zshrc.pre-oh-my-zshという名前のファイルに変わっていた。そのため、設定したaliasなどは使えなくなった。</li>
+<li>そこで、<a
+href="https://qiita.com/nagisa-afadfadf/items/38eb26f01ba1a0bcc5c8">こちら</a>を参考に、.zshrcの名前を変更した。</li>
+</ul>
+<pre><code>&gt; mv .zshrc .oh-my-zshrc
+&gt; mv .zshrc.pre-oh-my-zsh .zshrc</code></pre>
+<h2 id="powerlevel10k">powerlevel10k</h2>
+<ul>
+<li>デザインを<a
+href="https://qiita.com/shun198/items/c60ec1cce9c9bf1e8c26">こちら</a>に従ってpowerlevel10kに変更。
+再設定したい場合は以下のコマンドを入力。</li>
+</ul>
+<pre><code>&gt; p10k configure</code></pre>
+<h2 id="zsh-autosuggestions">zsh-autosuggestions</h2>
+<pre><code>&gt; git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions</code></pre>
+<ul>
+<li>以下を.oh-my-zshrcに追記して有効化。</li>
+</ul>
+<pre><code>plugins=(
+    git
+    zsh-autosuggestions
+)</code></pre>
+<ul>
+<li>.oh-my-zshrcに以下を追記すると、suggestされる文字がハイライトされる。</li>
+</ul>
+<pre><code>ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=&#39;fg=blue&#39;</code></pre>
+<h2 id="zsh-syntax-highlighting">zsh-syntax-highlighting</h2>
+<ul>
+<li><a
+href="https://zenn.dev/ring_belle/books/mac-environment/viewer/shell-oh-my-zsh-syntax-highlight">こちら</a>を参考にインストール。</li>
+</ul>
+<pre><code>&gt; git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting</code></pre>
+<ul>
+<li>入力履歴に基づき、コマンドの予測変換をしてくれる。→を押すことでそのコマンドを選択できる。</li>
+</ul>
+<h2 id="zsh-bat">zsh-bat</h2>
+<ul>
+<li><a
+href="https://zenn.dev/ring_belle/books/mac-environment/viewer/shell-oh-my-zsh-bat">こちら</a>を参考にインストール。</li>
+</ul>
+<pre><code>&gt; brew install bat
+&gt; git clone https://github.com/fdellwing/zsh-bat.git $ZSH_CUSTOM/plugins/zsh-bat</code></pre>
+<ul>
+<li>catコマンドが高度なものとなり、シンタックスのハイライトや、行番号が出力される。</li>
+</ul>
+<h2 id="copypath">copypath</h2>
+<ul>
+<li>.oh-my-zshのplugin部分に「copypath」を追加。</li>
+<li>「copypath」と入力することで、カレントパスをコピー。</li>
+</ul>
+</body>
+</html>
