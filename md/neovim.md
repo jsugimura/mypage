@@ -284,7 +284,7 @@ return {
 ### oil
 ファイルエクスプローラ（[GitHub](https://github.com/stevearc/oil.nvim)）。
 ```
-vi lua/plugins/oil.lua
+> vi lua/plugins/oil.lua
 ```
 ```
 return {
@@ -371,73 +371,73 @@ return {
 
 ### コマンド補完機能
 - nvim-config（[GitHub](https://github.com/hrsh7th/nvim-cmp)）
-    コマンドの補完エンジン。
-    ```
-    > vi lua/plugins/cmp.lua
-    ```
-    ```
-    return {
-      {
-        "hrsh7th/nvim-cmp",
-        event = "InsertEnter",  -- 挿入モードに入ったとき読み込み
-        dependencies = {
-          "hrsh7th/cmp-nvim-lsp",   -- LSP 補完
-          "hrsh7th/cmp-buffer",     -- バッファ内の単語補完
-          "hrsh7th/cmp-path",       -- パス補完
-          "saadparwaiz1/cmp_luasnip",
-          "L3MON4D3/LuaSnip",       -- スニペットエンジン
-          "rafamadriz/friendly-snippets", -- 既製スニペット集
+コマンドの補完エンジン。
+```
+> vi lua/plugins/cmp.lua
+```
+```
+return {
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",  -- 挿入モードに入ったとき読み込み
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",   -- LSP 補完
+      "hrsh7th/cmp-buffer",     -- バッファ内の単語補完
+      "hrsh7th/cmp-path",       -- パス補完
+      "saadparwaiz1/cmp_luasnip",
+      "L3MON4D3/LuaSnip",       -- スニペットエンジン
+      "rafamadriz/friendly-snippets", -- 既製スニペット集
+    },
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+
+      -- VSCode形式のスニペットを読み込む
+      require("luasnip.loaders.from_vscode").lazy_load()
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
         },
-        config = function()
-          local cmp = require("cmp")
-          local luasnip = require("luasnip")
-    
-          -- VSCode形式のスニペットを読み込む
-          require("luasnip.loaders.from_vscode").lazy_load()
-    
-          cmp.setup({
-            snippet = {
-              expand = function(args)
-                luasnip.lsp_expand(args.body)
-              end,
-            },
-            mapping = cmp.mapping.preset.insert({
-              ["<C-Space>"] = cmp.mapping.complete(),         -- 補完開始
-              ["<C-e>"]     = cmp.mapping.abort(),            -- 補完キャンセル
-    --          ["<CR>"]      = cmp.mapping.confirm({ select = true }), -- 決定
-    					-- Enter は「確定しない」
-    					["<CR>"] = cmp.mapping({
-    						 i = function(fallback)
-    							if cmp.visible() then
-    								cmp.abort()   -- ← 補完を閉じるだけ
-    							else
-    								fallback()    -- ← 普通の Enter
-    							end
-    						end,
-    					}),
-    					-- Tab で確定
-    			    ["<Tab>"] = cmp.mapping(function(fallback)
-    			      if cmp.visible() then
-    			        cmp.confirm({ select = false })
-    			      else
-    			        fallback()
-    			      end
-    			    end, { "i", "s" }),
-              ["<C-n>"]     = cmp.mapping.select_next_item(), -- 次候補
-              ["<C-p>"]     = cmp.mapping.select_prev_item(), -- 前候補
-            }),
-            sources = cmp.config.sources({
-              { name = "nvim_lsp" },
-              { name = "luasnip" },
-            }, {
-              { name = "buffer" },
-              { name = "path" },
-            }),
-          })
-        end,
-      },
-    }
-    ```
+        mapping = cmp.mapping.preset.insert({
+          ["<C-Space>"] = cmp.mapping.complete(),         -- 補完開始
+          ["<C-e>"]     = cmp.mapping.abort(),            -- 補完キャンセル
+--          ["<CR>"]      = cmp.mapping.confirm({ select = true }), -- 決定
+					-- Enter は「確定しない」
+					["<CR>"] = cmp.mapping({
+						 i = function(fallback)
+							if cmp.visible() then
+								cmp.abort()   -- ← 補完を閉じるだけ
+							else
+								fallback()    -- ← 普通の Enter
+							end
+						end,
+					}),
+					-- Tab で確定
+			    ["<Tab>"] = cmp.mapping(function(fallback)
+			      if cmp.visible() then
+			        cmp.confirm({ select = false })
+			      else
+			        fallback()
+			      end
+			    end, { "i", "s" }),
+          ["<C-n>"]     = cmp.mapping.select_next_item(), -- 次候補
+          ["<C-p>"]     = cmp.mapping.select_prev_item(), -- 前候補
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+        }, {
+          { name = "buffer" },
+          { name = "path" },
+        }),
+      })
+    end,
+  },
+}
+```
 
 - mason（[GitHub](https://github.com/mason-org/mason.nvim)）、
   nvim-lspconfig（[GitHub](https://github.com/neovim/nvim-lspconfig)）
