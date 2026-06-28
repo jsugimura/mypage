@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>fortran</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="fortran">Fortran</h1>
+<pre><code>&gt; vi snippets/fortran.lua</code></pre>
+<pre><code>local ls = require(&quot;luasnip&quot;)
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+
+return {
+  s(&quot;fmod&quot;, {
+    t({ &quot;module &quot; }), i(1, &quot;module_name&quot;),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;contains&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;&quot;, &quot;end module &quot; }), rep(1),
+  }),
+
+  s(&quot;fsub&quot;, {
+    t({ &quot;subroutine &quot; }), i(1, &quot;name&quot;), t(&quot;(&quot;), i(2, &quot;args&quot;), t({ &quot;)&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;end subroutine &quot; }), rep(1),
+  }),
+
+  s(&quot;func&quot;, {
+    t({ &quot;function &quot; }), i(1, &quot;name&quot;), t(&quot;(&quot;), i(2, &quot;args&quot;), t({ &quot;) &quot;}), t({ &quot;result()&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;end function &quot; }), rep(1),
+  }),
+
+  s(&quot;fprog&quot;, {
+    t({ &quot;program &quot; }), i(1, &quot;main&quot;),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  &quot; }), i(0),
+    t({ &quot;&quot;, &quot;&quot;, &quot;end program &quot; }), rep(1),
+  }),
+
+  s(&quot;fdo&quot;, {
+    t(&quot;do &quot;), i(0),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;enddo&quot; }),
+  }),
+
+  s(&quot;fif&quot;, {
+    t(&quot;if (&quot;), i(1, &quot;condition&quot;), t({ &quot;) then&quot;, &quot;&quot; }),
+    t(&quot;  &quot;), i(0),
+    t({ &quot;&quot;, &quot;endif&quot; }),
+  }),
+
+  s(&quot;(&quot;, {
+    t(&quot;(/ &quot;), i(0), t({ &quot; /)&quot;}),
+  }),
+}</code></pre>
+</body>
+</html>

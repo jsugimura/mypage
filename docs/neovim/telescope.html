@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>telescope</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="telescope">telescope</h1>
+<p>ファイルサーチ（<a
+href="https://github.com/nvim-telescope/telescope.nvim">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/telescope.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-telescope/telescope.nvim&quot;,
+    tag = &quot;0.1.5&quot;,   -- 安定版
+    dependencies = {
+      &quot;nvim-lua/plenary.nvim&quot;,
+    },
+    config = function()
+      local telescope = require(&quot;telescope&quot;)
+
+      telescope.setup({
+        defaults = {
+          layout_strategy = &quot;horizontal&quot;,
+          layout_config = {
+            preview_width = 0.55,
+          },
+          sorting_strategy = &quot;ascending&quot;,
+        },
+      })
+
+      -- よく使うキーマッピング（任意）
+      local builtin = require(&quot;telescope.builtin&quot;)
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;ff&quot;, builtin.find_files, { desc = &quot;Telescope: Find Files&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fg&quot;, builtin.live_grep,  { desc = &quot;Telescope: Live Grep&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fb&quot;, builtin.buffers,    { desc = &quot;Telescope: Buffers&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fh&quot;, builtin.help_tags,  { desc = &quot;Telescope: Help&quot; })
+    end,
+  },
+}</code></pre>
+<p>telescope-fzf-native（<a
+href="https://github.com/nvim-telescope/telescope-fzf-native.nvim">GitHub</a>）も導入しておく。</p>
+<pre><code>&gt; vi lua/plugins/telescope-fzf.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-telescope/telescope-fzf-native.nvim&quot;,
+    build = &quot;make&quot;,   -- fzf-native をコンパイル
+    cond = vim.fn.executable(&quot;make&quot;) == 1,  -- make がある環境でのみ有効
+    dependencies = { &quot;nvim-telescope/telescope.nvim&quot; },
+    config = function()
+      require(&quot;telescope&quot;).load_extension(&quot;fzf&quot;)
+    end,
+  },
+}</code></pre>
+<ul>
+<li><code>Space + ff</code>: ファイル検索</li>
+<li><code>Space + fg</code>: grep</li>
+<li><code>Space + fb</code>: bufferの内容表示</li>
+<li><code>Space + fh</code>: helpタグの表示</li>
+</ul>
+</body>
+</html>

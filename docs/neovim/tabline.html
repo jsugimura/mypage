@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>tabline</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="tabline">tabline</h1>
+<p>bufferの表示（<a
+href="https://github.com/kdheepak/tabline.nvim">Github</a>）。</p>
+<pre><code>&gt; vi lua/plugins/lualine.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;akinsho/bufferline.nvim&quot;,
+    version = &quot;*&quot;,
+    dependencies = { &quot;nvim-tree/nvim-web-devicons&quot; },
+    config = function()
+      require(&quot;bufferline&quot;).setup({
+        options = {
+          mode = &quot;buffers&quot;,   -- タブではなくバッファ一覧を表示（一般的）
+          diagnostics = &quot;nvim_lsp&quot;, -- LSP の診断アイコンを表示
+          show_buffer_close_icons = true,
+          show_close_icon = false,
+          separator_style = &quot;slant&quot;,  -- タブの区切りをスラントに
+        },
+      })
+    end,
+  },
+}</code></pre>
+<p>また、<code>lua/config/keymaps.lua</code>を作成し、以下を記述。</p>
+<pre><code>vim.keymap.set(&quot;n&quot;, &quot;&lt;C-h&gt;&quot;, &quot;&lt;cmd&gt;bprev&lt;CR&gt;&quot;)
+vim.keymap.set(&quot;n&quot;, &quot;&lt;C-l&gt;&quot;, &quot;&lt;cmd&gt;bnext&lt;CR&gt;&quot;)</code></pre>
+<p>これにより、<code>&lt;Ctrl&gt; + h/l</code>でbuffer間を移動可能。</p>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>nvim-treesitter-context</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="nvim-treesitter-context">nvim-treesitter-context</h1>
+<p>スクロール時に画面上部でコードを固定（<a
+href="https://github.com/nvim-treesitter/nvim-treesitter-context">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/treesitter-context.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-treesitter/nvim-treesitter-context&quot;,
+    config = function()
+      require(&quot;treesitter-context&quot;).setup({
+        enable = true,             -- 有効化
+    disable = { &quot;fortran&quot; },
+        max_lines = 4,             -- コンテキスト行数の最大値（0 で制限なし）
+        min_window_height = 10,    -- ウィンドウが小さすぎる時は非表示
+        line_numbers = true,       -- コンテキストに行番号表示
+        multiline_threshold = 20,  -- 長いブロックに対する閾値
+        trim_scope = &quot;outer&quot;,      -- コンテキストが多い場合は外側から削る
+        mode = &quot;cursor&quot;,           -- cursor or topline
+        separator = nil,           -- 区切り線（&quot;─&quot; なども可）
+      })
+    end,
+  },
+}</code></pre>
+</body>
+</html>

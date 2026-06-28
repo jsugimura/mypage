@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>latex</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="latexのスニペット">LaTeXのスニペット</h1>
+<pre><code>&gt; vi snippets/tex.lua</code></pre>
+<pre><code>local ls = require(&quot;luasnip&quot;)
+local s  = ls.snippet
+local t  = ls.text_node
+local i  = ls.insert_node
+
+return {
+
+  s({trig = &quot;eq&quot;, priority = 2000}, {
+    t(&quot;\\begin{equation}&quot;), 
+        t({ &quot;&quot;, &quot;  &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{equation}&quot; }),
+  }),
+
+  s({trig = &quot;al&quot;, priority = 2000}, {
+    t(&quot;\\begin{align}&quot;), 
+        t({ &quot;&quot;, &quot;  &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{align}&quot; }),
+  }),
+
+  s({trig = &quot;eqal&quot;, priority = 2000}, {
+    t(&quot;\\begin{equation}&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{aligned}&quot; }), 
+        t({ &quot;&quot;, &quot;    &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{aligned}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{equation}&quot; }),
+  }),
+
+  s({trig = &quot;item&quot;, priority = 2000}, {
+    t(&quot;\\begin{itemize}&quot;), 
+        t({ &quot;&quot;, &quot;  \\item &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{itemize}&quot; }),
+  }),
+
+  s({trig = &quot;enu&quot;, priority = 2000}, {
+    t(&quot;\\begin{enumerate}&quot;), 
+        t({ &quot;&quot;, &quot;  \\item &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{enumerate}&quot; }),
+  }),
+
+  s({trig = &quot;fig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+        t({ &quot;&quot;, &quot;  \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;  \\caption{}&quot;}), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;tab&quot;, priority = 2000}, {
+    t(&quot;\\begin{table}[H]&quot;), 
+        t({ &quot;&quot;, &quot;  \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;  \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;  \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;  \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;  \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;  \\begin{tabular}{ccc}&quot; }), 
+        i(1),
+        t({ &quot;&quot;, &quot;    \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;    \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;  \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;\\end{table}&quot; }),
+  }),
+
+  s({trig = &quot;figtab&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;    \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{tabular}{ccc}&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;itemtab&quot;, priority = 2000}, {
+    t(&quot;\\begin{tabular}{cc}&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{itemize}&quot; }), 
+        t({ &quot;&quot;, &quot;               \\item &quot; }), 
+        i(1),
+        t({ &quot;&quot;, &quot;    \\end{itemize}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;    \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{tabular}{ccc}&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{tabular}&quot; }),
+  }),
+
+  s({trig = &quot;itemfig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+    t({ &quot;&quot;, &quot;    \\begin{itemize}&quot; }),
+    t({ &quot;&quot;, &quot;      \\item &quot; }),
+    t({ &quot;&quot;, &quot;    \\end{itemize}&quot; }),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;enufig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+    t({ &quot;&quot;, &quot;    \\begin{enumerate}&quot; }),
+    t({ &quot;&quot;, &quot;      \\item &quot; }),
+    t({ &quot;&quot;, &quot;    \\end{enumerate}&quot; }),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;vs&quot;, priority = 2000}, {
+    t(&quot;&quot;), 
+        t({ &quot;&quot;, &quot;\\vspace{-10pt}&quot; }), 
+        t({ &quot;&quot;, &quot;&quot;}), 
+        i(1),
+  }),
+
+  s({trig = &quot;col&quot;, priority = 2000}, {
+    t(&quot;\\textcolor{&quot;), 
+        i(1),
+    t(&quot;}{}&quot;), 
+  }),
+
+  s({trig = &quot;frac&quot;, priority = 2000}, {
+    t(&quot;\\frac{&quot;), 
+        i(1),
+    t(&quot;}{}&quot;), 
+  }),
+
+}</code></pre>
+</body>
+</html>

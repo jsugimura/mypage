@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>autocommand</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="コマンド補完機能">コマンド補完機能</h1>
+<ul>
+<li>nvim-config（<a
+href="https://github.com/hrsh7th/nvim-cmp">GitHub</a>）<br />
+コマンドの補完エンジン。</li>
+</ul>
+<pre><code>&gt; vi lua/plugins/cmp.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;hrsh7th/nvim-cmp&quot;,
+    event = &quot;InsertEnter&quot;,  -- 挿入モードに入ったとき読み込み
+    dependencies = {
+      &quot;hrsh7th/cmp-nvim-lsp&quot;,   -- LSP 補完
+      &quot;hrsh7th/cmp-buffer&quot;,     -- バッファ内の単語補完
+      &quot;hrsh7th/cmp-path&quot;,       -- パス補完
+      &quot;saadparwaiz1/cmp_luasnip&quot;,
+      &quot;L3MON4D3/LuaSnip&quot;,       -- スニペットエンジン
+      &quot;rafamadriz/friendly-snippets&quot;, -- 既製スニペット集
+    },
+    config = function()
+      local cmp = require(&quot;cmp&quot;)
+      local luasnip = require(&quot;luasnip&quot;)
+
+      -- VSCode形式のスニペットを読み込む
+      require(&quot;luasnip.loaders.from_vscode&quot;).lazy_load()
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          [&quot;&lt;C-Space&gt;&quot;] = cmp.mapping.complete(),         -- 補完開始
+          [&quot;&lt;C-e&gt;&quot;]     = cmp.mapping.abort(),            -- 補完キャンセル
+--          [&quot;&lt;CR&gt;&quot;]      = cmp.mapping.confirm({ select = true }), -- 決定
+                    -- Enter は「確定しない」
+                    [&quot;&lt;CR&gt;&quot;] = cmp.mapping({
+                         i = function(fallback)
+                            if cmp.visible() then
+                                cmp.abort()   -- ← 補完を閉じるだけ
+                            else
+                                fallback()    -- ← 普通の Enter
+                            end
+                        end,
+                    }),
+                    -- Tab で確定
+                [&quot;&lt;Tab&gt;&quot;] = cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.confirm({ select = false })
+                  else
+                    fallback()
+                  end
+                end, { &quot;i&quot;, &quot;s&quot; }),
+          [&quot;&lt;C-n&gt;&quot;]     = cmp.mapping.select_next_item(), -- 次候補
+          [&quot;&lt;C-p&gt;&quot;]     = cmp.mapping.select_prev_item(), -- 前候補
+        }),
+        sources = cmp.config.sources({
+          { name = &quot;nvim_lsp&quot; },
+          { name = &quot;luasnip&quot; },
+        }, {
+          { name = &quot;buffer&quot; },
+          { name = &quot;path&quot; },
+        }),
+      })
+    end,
+  },
+}</code></pre>
+<ul>
+<li>mason（<a
+href="https://github.com/mason-org/mason.nvim">GitHub</a>）、
+nvim-lspconfig（<a
+href="https://github.com/neovim/nvim-lspconfig">GitHub</a>）<br />
+LSPサーバとそのNeovimへの接続。</li>
+</ul>
+<pre><code>&gt; vi lua/plugins/lsp.lua</code></pre>
+<pre><code>return {
+  -- LSP サーバのインストーラ
+  {
+    &quot;williamboman/mason.nvim&quot;,
+    config = function()
+      require(&quot;mason&quot;).setup()
+    end,
+  },
+
+  -- mason と標準 LSP の橋渡し
+  {
+    &quot;williamboman/mason-lspconfig.nvim&quot;,
+    dependencies = {
+      &quot;williamboman/mason.nvim&quot;,
+      &quot;neovim/nvim-lspconfig&quot;,  -- ここは「設定ファイル集」としてだけ使う
+      &quot;hrsh7th/cmp-nvim-lsp&quot;,
+    },
+    config = function()
+            -- fortls の「initialization complete」だけを黙らせる
+        do
+          local function is_fortls_init_complete(result, ctx)
+            local client = vim.lsp.get_client_by_id(ctx.client_id)
+            if not client or client.name ~= &quot;fortls&quot; then
+              return false
+            end
+            local msg = (result and (result.message or result)) or &quot;&quot;
+            msg = type(msg) == &quot;string&quot; and msg or &quot;&quot;
+            return msg:match(&quot;initialization complete&quot;) ~= nil
+          end
+        
+          local orig_log = vim.lsp.handlers[&quot;window/logMessage&quot;]
+          vim.lsp.handlers[&quot;window/logMessage&quot;] = function(err, result, ctx, config)
+            if result and ctx and is_fortls_init_complete(result, ctx) then
+              return
+            end
+            return orig_log(err, result, ctx, config)
+          end
+        
+          local orig_show = vim.lsp.handlers[&quot;window/showMessage&quot;]
+          vim.lsp.handlers[&quot;window/showMessage&quot;] = function(err, result, ctx, config)
+            if result and ctx and is_fortls_init_complete(result, ctx) then
+              return
+            end
+            return orig_show(err, result, ctx, config)
+          end
+        end
+
+      local mason_lspconfig = require(&quot;mason-lspconfig&quot;)
+
+      mason_lspconfig.setup({
+        ensure_installed = {
+          &quot;pyright&quot;,   -- Python
+          -- &quot;clangd&quot;,    -- C/C++
+          &quot;lua_ls&quot;,    -- Lua（Neovim設定用）
+          &quot;fortls&quot;,    -- Fortran
+          &quot;texlab&quot;,    -- LaTeX
+        },
+        automatic_installation = true,
+      })
+
+      local capabilities = require(&quot;cmp_nvim_lsp&quot;).default_capabilities()
+
+      -- ★ 新しい書き方：vim.lsp.config + vim.lsp.enable
+
+      -- 共通能力を全サーバに適用
+      vim.lsp.config(&quot;*&quot;, {
+        capabilities = capabilities,
+      })
+
+      -- 必要に応じて個別設定を上書き
+      vim.lsp.config(&quot;lua_ls&quot;, {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { &quot;vim&quot; },
+            },
+          },
+        },
+      })
+
+      vim.lsp.config(&quot;texlab&quot;, {
+        settings = {
+          texlab = {
+            build = {
+              executable = &quot;latexmk&quot;,
+              args = { &quot;-pdf&quot;, &quot;-interaction=nonstopmode&quot;, &quot;-synctex=1&quot;, &quot;%f&quot; },
+              onSave = false,
+            },
+          },
+        },
+      })
+            vim.lsp.config(&quot;fortls&quot;, {
+              cmd = {
+                &quot;fortls&quot;,
+                &quot;--hover_signature&quot;,
+                &quot;--hover_language=fortran&quot;,
+                    &quot;--lowercase_intrinsics&quot;,
+                -- &quot;--use_signature_help&quot;,
+              },
+              filetypes = { &quot;fortran&quot; },
+              root_markers = { &quot;.fortls&quot;, &quot;.fortlsrc&quot;, &quot;.fortls.json&quot;, &quot;.git&quot; },
+            })
+
+      -- 有効にするサーバ一覧
+      vim.lsp.enable({
+        &quot;pyright&quot;,
+        -- &quot;clangd&quot;,
+        &quot;lua_ls&quot;,
+        &quot;fortls&quot;,
+        &quot;texlab&quot;,
+      })
+    vim.lsp.enable(&#39;stylua&#39;, false)
+    end,
+  },
+}</code></pre>
+</body>
+</html>
