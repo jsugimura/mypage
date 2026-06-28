@@ -3,19 +3,30 @@
 src_dir="."
 out_dir="../docs"
 
+mkdir -p "$out_dir"
+cp style.css "$out_dir/style.css"
+
 find "$src_dir" -type f -name "*.md" | while read -r md; do
-  # ./subdir/file.md → subdir/file.md
   rel="${md#./}"
-
-  # subdir/file.md → subdir/file.html
   html="${rel%.md}.html"
-
-  # 出力先: ../docs/subdir/file.html
   out="${out_dir}/${html}"
 
-  # 出力先ディレクトリを作成
   mkdir -p "$(dirname "$out")"
 
-  # HTML化
-  pandoc "$md" -s -c style.css -o "$out"
+  # rel のディレクトリ部分
+  dir="$(dirname "$rel")"
+
+  # CSS への相対パスを決める
+  if [ "$dir" = "." ]; then
+    css_path="style.css"
+  else
+    depth=$(echo "$dir" | awk -F/ '{print NF}')
+    css_path=""
+    for i in $(seq 1 "$depth"); do
+      css_path="../$css_path"
+    done
+    css_path="${css_path}style.css"
+  fi
+
+  pandoc "$md" -s -c "$css_path" -o "$out"
 done

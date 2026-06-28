@@ -1,0 +1,134 @@
+/* ===== Purple Markdown Theme ===== */
+
+:root {
+  --bg: #fbf8ff;
+  --text: #2b2233;
+  --muted: #6f617a;
+/*  --purple: #7c3aed;
+  --purple-dark: #5b21b6;
+  --purple-light: #ede9fe; */
+  --kanata: #a664a0;
+  --border: #d8c7f5;
+  --code-bg: #f3edff;
+}
+
+/* 全体 */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.8;
+  font-size: 16px;
+
+  /* 横幅制限を緩める */
+  max-width: none !important;
+  width: min(1200px, 92vw);
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* 見出し */
+h1, h2, h3, h4 {
+  color: var(--kanata);
+  line-height: 1.35;
+  margin-top: 2.2em;
+}
+
+h1 {
+  border-bottom: 3px solid var(--kanata);
+  padding-bottom: 0.3em;
+}
+
+h2 {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.25em;
+}
+
+/* リンク */
+a {
+  color: var(--kanata);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--kanata);
+  text-decoration: underline;
+}
+
+/* 引用 */
+blockquote {
+  border-left: 5px solid var(--kanata);
+  background: var(--kanata);
+  color: var(--text);
+  margin: 1.5em 0;
+  padding: 0.8em 1.2em;
+  border-radius: 0 8px 8px 0;
+}
+
+/* インラインコード */
+code {
+  background: var(--code-bg);
+  color: var(--kanata);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+/* コードブロック */
+pre {
+  background: #241732;
+  color: #f4eaff;
+  padding: 1em 1.2em;
+  border-radius: 10px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* 表 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  background: white;
+}
+
+th {
+  background: var(--kanata);
+  color: var(--kanata);
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.6em 0.8em;
+}
+
+/* 画像 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5em auto;
+  border-radius: 8px;
+}
+
+/* 数式がある場合の横スクロール対策 */
+mjx-container,
+.MathJax {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+/* 区切り線 */
+hr {
+  border: none;
+  border-top: 2px solid var(--border);
+  margin: 2em 0;
+}
