@@ -157,7 +157,7 @@ require("lazy").setup({
 - [Fortran](fortran.html)
 
 ## latexmkrc
-以下のページ参照（[latexmkrcを用いたtexの自動コンパイル](../autotexcompile.md)）。
+以下のページ参照（[latexmkrcを用いたtexの自動コンパイル](../autotexcompile.html)）。
 
 
 
