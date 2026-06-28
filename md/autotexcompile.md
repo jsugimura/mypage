@@ -3,34 +3,35 @@
 1. vimtexのインストール
 	- `~/.config/nvim/lua/plugins/tex.lua`に以下を記述。  
 	```  
-	return {
-	  {
-	    "lervag/vimtex",
-	    lazy = false,
-	    init = function()
-	      vim.g.vimtex_compiler_method = "latexmk"
-	      vim.g.vimtex_view_method = "skim"
-	      vim.g.vimtex_quickfix_mode = 0
-	
-	      vim.g.vimtex_compiler_latexmk = {
-	        continuous = 1,
-	        options = {
-	          "-verbose",
-	          "-file-line-error",
-	          "-synctex=1",
-	          "-interaction=nonstopmode",
-	        },
-	      }
-	
-	      vim.api.nvim_create_autocmd("User", {
-	        pattern = "VimtexEventCompileSuccess",
-	        callback = function()
-			  vim.fn.jobstart({ "open", "-a", "Skim" }, { detach = true })
-	        end,
-	      })
-	    end,
-	  },
-	}
+    return {
+      {
+        "lervag/vimtex",
+        lazy = false,
+        init = function()
+          vim.g.vimtex_compiler_method = "latexmk"
+          vim.g.vimtex_view_method = "skim"
+          vim.g.vimtex_quickfix_mode = 0
+    
+          vim.g.vimtex_compiler_latexmk = {
+            continuous = 1,
+            options = {
+    					"-pvc",
+              "-verbose",
+              "-file-line-error",
+              "-synctex=1",
+              "-interaction=nonstopmode",
+            },
+          }
+    
+          vim.api.nvim_create_autocmd("User", {
+            pattern = "VimtexEventCompileSuccess",
+            callback = function()
+              vim.fn.jobstart({ "open", "-a", "Skim" }, { detach = true })
+            end,
+          })
+        end,
+      },
+    }
 	```
 
 

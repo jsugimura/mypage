@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>neovim</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<h1 id="neovim環境構築">Neovim環境構築</h1>
+<h2 id="ディレクトリ構成">ディレクトリ構成</h2>
+<pre><code>&gt; cd ~/.config/nvim
+&gt; tree
+.
+├── init.lua
+├── lazy-lock.json
+├── lua
+│   ├── config
+│   │   ├── keymaps.lua
+│   │   ├── lazy.lua
+│   │   └── options.lua
+│   └── plugins
+│       ├── bufferline.lua
+│       ├── cmp.lua
+│       ├── colorscheme.lua
+│       ├── indent.lua
+│       ├── lsp.lua
+│       ├── lualine.lua
+│       ├── luasnip.lua
+│       ├── oil.lua
+│       ├── telescope-fzf.lua
+│       ├── telescope.lua
+│       ├── tex.lua
+│       ├── treesitter-context.lua
+│       └── treesitter.lua
+└── snippets
+    ├── fortran.lua
+    └── tex.lua</code></pre>
+<h2 id="インストール">インストール</h2>
+<ul>
+<li><p>brewによるインストール（<a
+href="https://lazy.folke.io/installation">GitHub</a>）。 ``` &gt; brew
+install neovim</p>
+<p>（中略）</p>
+<blockquote>
+<p>nvim –version NVIM v0.11.5 Build type: Release LuaJIT 2.1.1765007043
+Run “nvim -V1 -v” for more info ```</p>
+</blockquote></li>
+<li><p>設定ファイルやプラグインを入れるためのディレクトリ作成。
+<code>&gt; cd .config   &gt; mkdir nvim   &gt; cd nvim   &gt; mkdir -p lua/config   &gt; mkdir -p lua/plugins</code></p></li>
+</ul>
+<h2 id="設定ファイル作成">設定ファイル作成</h2>
+<h3 id="init.lua">init.lua</h3>
+<p>Neovimの設定ファイル。</p>
+<pre><code>&gt; vi init.lua</code></pre>
+<pre><code>vim.g.mapleader = &quot; &quot;
+vim.g.maplocalleader = &quot; &quot;
+
+require(&quot;config.keymaps&quot;)
+require(&quot;config.options&quot;)
+require(&quot;config.lazy&quot;)
+
+-- vim.opt.termguicolors = true
+
+-- Tabキーによるインデントの表示
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+
+vim.opt.clipboard = &quot;unnamedplus&quot;
+
+-- 行番号の色指定
+vim.api.nvim_set_hl(0, &quot;LineNr&quot;, { fg = &quot;#6c4ae0&quot; })
+vim.api.nvim_set_hl(0, &quot;LineNrAbove&quot;, { fg = &quot;#6c4ae0&quot; })
+vim.api.nvim_set_hl(0, &quot;LineNrBelow&quot;, { fg = &quot;#6c4ae0&quot; })
+vim.api.nvim_set_hl(0, &quot;CursorLineNr&quot;, { fg = &quot;#a9a1e1&quot;, bold = true })
+
+-- 前回ファイルを閉じた位置にカーソルを戻す
+vim.api.nvim_create_autocmd(&quot;BufReadPost&quot;, {
+  pattern = &quot;*&quot;,
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, &#39;&quot;&#39;)
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] &gt; 0 and mark[1] &lt;= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})</code></pre>
+<h3 id="lazy.lua">lazy.lua</h3>
+<p>プラグインマネージャ。
+pluginsディレクトリにあるluaファイルを読み込んでプラグインが追加可能。</p>
+<pre><code>&gt; vi lua/config/lazy.lua</code></pre>
+<pre><code>-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath(&quot;data&quot;) .. &quot;/lazy/lazy.nvim&quot;
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local lazyrepo = &quot;https://github.com/folke/lazy.nvim.git&quot;
+  local out = vim.fn.system({ &quot;git&quot;, &quot;clone&quot;, &quot;--filter=blob:none&quot;, &quot;--branch=stable&quot;, lazyrepo, lazypath })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({
+      { &quot;Failed to clone lazy.nvim:\n&quot;, &quot;ErrorMsg&quot; },
+      { out, &quot;WarningMsg&quot; },
+      { &quot;\nPress any key to exit...&quot; },
+    }, true, {})
+    vim.fn.getchar()
+    os.exit(1)
+  end
+end
+vim.opt.rtp:prepend(lazypath)
+
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+-- This is also a good place to setup other settings (vim.opt)
+vim.g.mapleader = &quot; &quot;
+vim.g.maplocalleader = &quot;\\&quot;
+
+-- Setup lazy.nvim
+require(&quot;lazy&quot;).setup({
+  spec = {
+    -- import your plugins
+    { import = &quot;plugins&quot; },
+  },
+  -- Configure any other settings here. See the documentation for more details.
+  -- colorscheme that will be used when installing plugins.
+  install = { colorscheme = { &quot;habamax&quot; } },
+  -- automatically check for plugin updates
+  checker = { enabled = true, notify = false },
+})</code></pre>
+<h2 id="プラグイン">プラグイン</h2>
+<h3 id="カラースキーム">カラースキーム</h3>
+<p>dogrun（<a
+href="https://github.com/wadackel/vim-dogrun">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/colorscheme.lua
+
+return {
+  {
+    &quot;wadackel/vim-dogrun&quot;,
+    priority = 1000,
+    config = function()
+      -- カラースキームを読み込む
+      vim.cmd(&quot;colorscheme dogrun&quot;)
+    end,
+  },
+}</code></pre>
+<h3 id="lualine">lualine</h3>
+<p>ステータスラインの表示（<a
+href="https://github.com/nvim-lualine/lualine.nvim">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/lualine.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-lualine/lualine.nvim&quot;,
+    dependencies = { &quot;nvim-tree/nvim-web-devicons&quot; },
+    config = function()
+      require(&quot;lualine&quot;).setup({
+        options = {
+          theme = &quot;auto&quot;,  -- カラースキームに応じて自動で合わせる
+          icons_enabled = true,
+        },
+      })
+    end,
+  },
+}</code></pre>
+<h3 id="tabline">tabline</h3>
+<p>bufferの表示（（<a
+href="https://github.com/kdheepak/tabline.nvim">Github</a>））。</p>
+<pre><code>&gt; vi lua/plugins/lualine.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;akinsho/bufferline.nvim&quot;,
+    version = &quot;*&quot;,
+    dependencies = { &quot;nvim-tree/nvim-web-devicons&quot; },
+    config = function()
+      require(&quot;bufferline&quot;).setup({
+        options = {
+          mode = &quot;buffers&quot;,   -- タブではなくバッファ一覧を表示（一般的）
+          diagnostics = &quot;nvim_lsp&quot;, -- LSP の診断アイコンを表示
+          show_buffer_close_icons = true,
+          show_close_icon = false,
+          separator_style = &quot;slant&quot;,  -- タブの区切りをスラントに
+        },
+      })
+    end,
+  },
+}</code></pre>
+<p>また、<code>lua/config/keymaps.lua</code>を作成し、以下を記述。</p>
+<pre><code>vim.keymap.set(&quot;n&quot;, &quot;&lt;C-h&gt;&quot;, &quot;&lt;cmd&gt;bprev&lt;CR&gt;&quot;)
+vim.keymap.set(&quot;n&quot;, &quot;&lt;C-l&gt;&quot;, &quot;&lt;cmd&gt;bnext&lt;CR&gt;&quot;)</code></pre>
+<p>これにより、<code>&lt;Ctrl&gt; + h/l</code>でbuffer間を移動可能。</p>
+<h3 id="nvim-treesitter">nvim-treesitter</h3>
+<p>構文のハイライト（<a
+href="https://github.com/nvim-treesitter/nvim-treesitter">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/treesitter.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-treesitter/nvim-treesitter&quot;,
+    build = &quot;:TSUpdate&quot;,   -- インストール後にパーサを更新
+    config = function()
+      require(&quot;nvim-treesitter.configs&quot;).setup({
+        -- インストールしたいパーサ（必要なものを追加）
+        ensure_installed = {
+          &quot;lua&quot;,
+          &quot;vim&quot;,
+          &quot;vimdoc&quot;,
+          &quot;query&quot;,
+          &quot;bash&quot;,
+          &quot;python&quot;,
+          &quot;c&quot;,
+          &quot;cpp&quot;,
+          --&quot;fortran&quot;,
+          &quot;json&quot;,
+          &quot;markdown&quot;,
+          &quot;markdown_inline&quot;,
+          &quot;bibtex&quot;,
+        },
+
+        highlight = {
+          enable = true,        -- Treesitter ハイライトを有効化
+      disable = { &quot;fortran&quot; },
+        },
+
+        indent = {
+          enable = true,        -- TS ベースの自動インデント
+        },
+      })
+    end,
+  },
+}</code></pre>
+<h3 id="nvim-treesitter-context">nvim-treesitter-context</h3>
+<p>スクロール時に画面上部でコードを固定（<a
+href="https://github.com/nvim-treesitter/nvim-treesitter-context">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/treesitter-context.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-treesitter/nvim-treesitter-context&quot;,
+    config = function()
+      require(&quot;treesitter-context&quot;).setup({
+        enable = true,             -- 有効化
+    disable = { &quot;fortran&quot; },
+        max_lines = 4,             -- コンテキスト行数の最大値（0 で制限なし）
+        min_window_height = 10,    -- ウィンドウが小さすぎる時は非表示
+        line_numbers = true,       -- コンテキストに行番号表示
+        multiline_threshold = 20,  -- 長いブロックに対する閾値
+        trim_scope = &quot;outer&quot;,      -- コンテキストが多い場合は外側から削る
+        mode = &quot;cursor&quot;,           -- cursor or topline
+        separator = nil,           -- 区切り線（&quot;─&quot; なども可）
+      })
+    end,
+  },
+}</code></pre>
+<h3 id="oil">oil</h3>
+<p>ファイルエクスプローラ（<a
+href="https://github.com/stevearc/oil.nvim">GitHub</a>）。</p>
+<pre><code>vi lua/plugins/oil.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;stevearc/oil.nvim&quot;,
+    dependencies = { &quot;nvim-tree/nvim-web-devicons&quot; },
+    config = function()
+      require(&quot;oil&quot;).setup({
+        default_file_explorer = true,  -- Neovim 標準の netrw を置き換える
+        view_options = {
+          show_hidden = true,          -- 隠しファイルも表示
+        },
+        columns = {
+          &quot;icon&quot;,                      -- ファイルアイコンを表示
+        },
+                keymaps = {
+          [&quot;q&quot;] = &quot;actions.close&quot;,       -- デフォルト
+          [&quot;&lt;Esc&gt;&quot;] = &quot;actions.close&quot;,   -- ←これで ESC でも閉じられる
+        },
+      })
+    end,
+  },
+}</code></pre>
+<p>neovimを開いた状態で<code>&lt;Space&gt; + o</code>で起動。</p>
+<h3 id="telescope">telescope</h3>
+<p>ファイルサーチ（<a
+href="https://github.com/nvim-telescope/telescope.nvim">GitHub</a>）。</p>
+<pre><code>&gt; vi lua/plugins/telescope.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-telescope/telescope.nvim&quot;,
+    tag = &quot;0.1.5&quot;,   -- 安定版
+    dependencies = {
+      &quot;nvim-lua/plenary.nvim&quot;,
+    },
+    config = function()
+      local telescope = require(&quot;telescope&quot;)
+
+      telescope.setup({
+        defaults = {
+          layout_strategy = &quot;horizontal&quot;,
+          layout_config = {
+            preview_width = 0.55,
+          },
+          sorting_strategy = &quot;ascending&quot;,
+        },
+      })
+
+      -- よく使うキーマッピング（任意）
+      local builtin = require(&quot;telescope.builtin&quot;)
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;ff&quot;, builtin.find_files, { desc = &quot;Telescope: Find Files&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fg&quot;, builtin.live_grep,  { desc = &quot;Telescope: Live Grep&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fb&quot;, builtin.buffers,    { desc = &quot;Telescope: Buffers&quot; })
+      vim.keymap.set(&quot;n&quot;, &quot;&lt;leader&gt;fh&quot;, builtin.help_tags,  { desc = &quot;Telescope: Help&quot; })
+    end,
+  },
+}</code></pre>
+<p>telescope-fzf-native（<a
+href="https://github.com/nvim-telescope/telescope-fzf-native.nvim">GitHub</a>）も導入しておく。</p>
+<pre><code>&gt; vi lua/plugins/telescope-fzf.lua</code></pre>
+<pre><code>return {
+  {
+    &quot;nvim-telescope/telescope-fzf-native.nvim&quot;,
+    build = &quot;make&quot;,   -- fzf-native をコンパイル
+    cond = vim.fn.executable(&quot;make&quot;) == 1,  -- make がある環境でのみ有効
+    dependencies = { &quot;nvim-telescope/telescope.nvim&quot; },
+    config = function()
+      require(&quot;telescope&quot;).load_extension(&quot;fzf&quot;)
+    end,
+  },
+}</code></pre>
+<ul>
+<li><code>Space + ff</code>: ファイル検索</li>
+<li><code>Space + fg</code>: grep</li>
+<li><code>Space + fb</code>: bufferの内容表示</li>
+<li><code>Space + fh</code>: helpタグの表示</li>
+</ul>
+<h3 id="コマンド補完機能">コマンド補完機能</h3>
+<ul>
+<li><p>nvim-config（<a
+href="https://github.com/hrsh7th/nvim-cmp">GitHub</a>）
+コマンドの補完エンジン。 <code>&gt; vi lua/plugins/cmp.lua</code> ```
+return { { “hrsh7th/nvim-cmp”, event = “InsertEnter”, –
+挿入モードに入ったとき読み込み dependencies = { “hrsh7th/cmp-nvim-lsp”,
+– LSP 補完 “hrsh7th/cmp-buffer”, – バッファ内の単語補完
+“hrsh7th/cmp-path”, – パス補完 “saadparwaiz1/cmp_luasnip”,
+“L3MON4D3/LuaSnip”, – スニペットエンジン “rafamadriz/friendly-snippets”,
+– 既製スニペット集 }, config = function() local cmp = require(“cmp”)
+local luasnip = require(“luasnip”)</p>
+<pre><code>    -- VSCode形式のスニペットを読み込む
+    require(&quot;luasnip.loaders.from_vscode&quot;).lazy_load()
+
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          luasnip.lsp_expand(args.body)
+        end,
+      },
+      mapping = cmp.mapping.preset.insert({
+        [&quot;&lt;C-Space&gt;&quot;] = cmp.mapping.complete(),         -- 補完開始
+        [&quot;&lt;C-e&gt;&quot;]     = cmp.mapping.abort(),            -- 補完キャンセル</code></pre>
+<p>– [“<CR>”] = cmp.mapping.confirm({ select = true }), – 決定 – Enter
+は「確定しない」 [“<CR>”] = cmp.mapping({ i = function(fallback) if
+cmp.visible() then cmp.abort() – ← 補完を閉じるだけ else fallback() – ←
+普通の Enter end end, }), – Tab で確定 [“<Tab>”] =
+cmp.mapping(function(fallback) if cmp.visible() then cmp.confirm({
+select = false }) else fallback() end end, { “i”, “s” }), [“<C-n>”] =
+cmp.mapping.select_next_item(), – 次候補 [“<C-p>”] =
+cmp.mapping.select_prev_item(), – 前候補 }), sources =
+cmp.config.sources({ { name = “nvim_lsp” }, { name = “luasnip” }, }, { {
+name = “buffer” }, { name = “path” }, }), }) end, }, } ```</p></li>
+<li><p>mason（<a
+href="https://github.com/mason-org/mason.nvim">GitHub</a>）、
+nvim-lspconfig（<a
+href="https://github.com/neovim/nvim-lspconfig">GitHub</a>）
+LSPサーバとそのNeovimへの接続。 <code>&gt; vi lua/plugins/lsp.lua</code>
+``` return { – LSP サーバのインストーラ { “williamboman/mason.nvim”,
+config = function() require(“mason”).setup() end, },</p>
+<pre><code>-- mason と標準 LSP の橋渡し
+{
+  &quot;williamboman/mason-lspconfig.nvim&quot;,
+  dependencies = {
+    &quot;williamboman/mason.nvim&quot;,
+    &quot;neovim/nvim-lspconfig&quot;,  -- ここは「設定ファイル集」としてだけ使う
+    &quot;hrsh7th/cmp-nvim-lsp&quot;,
+  },
+  config = function()
+          -- fortls の「initialization complete」だけを黙らせる
+      do
+        local function is_fortls_init_complete(result, ctx)
+          local client = vim.lsp.get_client_by_id(ctx.client_id)
+          if not client or client.name ~= &quot;fortls&quot; then
+            return false
+          end
+          local msg = (result and (result.message or result)) or &quot;&quot;
+          msg = type(msg) == &quot;string&quot; and msg or &quot;&quot;
+          return msg:match(&quot;initialization complete&quot;) ~= nil
+        end
+
+        local orig_log = vim.lsp.handlers[&quot;window/logMessage&quot;]
+        vim.lsp.handlers[&quot;window/logMessage&quot;] = function(err, result, ctx, config)
+          if result and ctx and is_fortls_init_complete(result, ctx) then
+            return
+          end
+          return orig_log(err, result, ctx, config)
+        end
+
+        local orig_show = vim.lsp.handlers[&quot;window/showMessage&quot;]
+        vim.lsp.handlers[&quot;window/showMessage&quot;] = function(err, result, ctx, config)
+          if result and ctx and is_fortls_init_complete(result, ctx) then
+            return
+          end
+          return orig_show(err, result, ctx, config)
+        end
+      end
+
+    local mason_lspconfig = require(&quot;mason-lspconfig&quot;)
+
+    mason_lspconfig.setup({
+      ensure_installed = {
+        &quot;pyright&quot;,   -- Python
+        -- &quot;clangd&quot;,    -- C/C++
+        &quot;lua_ls&quot;,    -- Lua（Neovim設定用）
+        &quot;fortls&quot;,    -- Fortran
+        &quot;texlab&quot;,    -- LaTeX
+      },
+      automatic_installation = true,
+    })
+
+    local capabilities = require(&quot;cmp_nvim_lsp&quot;).default_capabilities()
+
+    -- ★ 新しい書き方：vim.lsp.config + vim.lsp.enable
+
+    -- 共通能力を全サーバに適用
+    vim.lsp.config(&quot;*&quot;, {
+      capabilities = capabilities,
+    })
+
+    -- 必要に応じて個別設定を上書き
+    vim.lsp.config(&quot;lua_ls&quot;, {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { &quot;vim&quot; },
+          },
+        },
+      },
+    })
+
+    vim.lsp.config(&quot;texlab&quot;, {
+      settings = {
+        texlab = {
+          build = {
+            executable = &quot;latexmk&quot;,
+            args = { &quot;-pdf&quot;, &quot;-interaction=nonstopmode&quot;, &quot;-synctex=1&quot;, &quot;%f&quot; },
+            onSave = false,
+          },
+        },
+      },
+    })
+          vim.lsp.config(&quot;fortls&quot;, {
+            cmd = {
+              &quot;fortls&quot;,
+              &quot;--hover_signature&quot;,
+              &quot;--hover_language=fortran&quot;,
+                  &quot;--lowercase_intrinsics&quot;,
+              -- &quot;--use_signature_help&quot;,
+            },
+            filetypes = { &quot;fortran&quot; },
+            root_markers = { &quot;.fortls&quot;, &quot;.fortlsrc&quot;, &quot;.fortls.json&quot;, &quot;.git&quot; },
+          })
+
+    -- 有効にするサーバ一覧
+    vim.lsp.enable({
+      &quot;pyright&quot;,
+      -- &quot;clangd&quot;,
+      &quot;lua_ls&quot;,
+      &quot;fortls&quot;,
+      &quot;texlab&quot;,
+    })
+  vim.lsp.enable(&#39;stylua&#39;, false)
+  end,
+},</code></pre>
+<p>} ```</p></li>
+</ul>
+<h3 id="indent-blacklinegithub">indent-blackline（<a
+href="https://github.com/lukas-reineke/indent-blankline.nvim">GitHub</a>）</h3>
+<p>インデントの可視化。</p>
+<pre><code>&gt; vi lua/plugins/indent.lua</code></pre>
+<pre><code>return {
+  &quot;lukas-reineke/indent-blankline.nvim&quot;,
+  main = &quot;ibl&quot;,
+  opts = {
+    indent = {
+      char = &quot;│&quot;,
+      tab_char = &quot;│&quot;,
+    },
+    scope = {
+      enabled = false,
+      show_start = true,
+      show_end = false,
+    },
+    whitespace = {
+      remove_blankline_trail = true,
+    },
+  },
+}</code></pre>
+<h3 id="luasnipgithub">luasnip（<a
+href="https://github.com/L3MON4D3/LuaSnip">GitHub</a>）</h3>
+<p>スニペット管理。</p>
+<pre><code>&gt; vi lua/plugins/luasnip.lua</code></pre>
+<pre><code>return {
+  &quot;L3MON4D3/LuaSnip&quot;,
+  dependencies = { &quot;saadparwaiz1/cmp_luasnip&quot; },
+  config = function()
+    require(&quot;luasnip.loaders.from_lua&quot;).lazy_load({ paths = &quot;~/.config/nvim/snippets&quot; })
+  end,
+}</code></pre>
+<h2 id="スニペット">スニペット</h2>
+<ul>
+<li>LaTeX</li>
+</ul>
+<pre><code>&gt; vi snippets/tex.lua</code></pre>
+<pre><code>local ls = require(&quot;luasnip&quot;)
+local s  = ls.snippet
+local t  = ls.text_node
+local i  = ls.insert_node
+
+return {
+
+  s({trig = &quot;eq&quot;, priority = 2000}, {
+    t(&quot;\\begin{equation}&quot;), 
+        t({ &quot;&quot;, &quot;  &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{equation}&quot; }),
+  }),
+
+  s({trig = &quot;al&quot;, priority = 2000}, {
+    t(&quot;\\begin{align}&quot;), 
+        t({ &quot;&quot;, &quot;  &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{align}&quot; }),
+  }),
+
+  s({trig = &quot;eqal&quot;, priority = 2000}, {
+    t(&quot;\\begin{equation}&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{aligned}&quot; }), 
+        t({ &quot;&quot;, &quot;    &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{aligned}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{equation}&quot; }),
+  }),
+
+  s({trig = &quot;item&quot;, priority = 2000}, {
+    t(&quot;\\begin{itemize}&quot;), 
+        t({ &quot;&quot;, &quot;  \\item &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{itemize}&quot; }),
+  }),
+
+  s({trig = &quot;enu&quot;, priority = 2000}, {
+    t(&quot;\\begin{enumerate}&quot;), 
+        t({ &quot;&quot;, &quot;  \\item &quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{enumerate}&quot; }),
+  }),
+
+  s({trig = &quot;fig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+        t({ &quot;&quot;, &quot;  \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;  \\caption{}&quot;}), 
+        i(1),
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;tab&quot;, priority = 2000}, {
+    t(&quot;\\begin{table}[H]&quot;), 
+        t({ &quot;&quot;, &quot;  \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;  \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;  \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;  \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;  \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;  \\begin{tabular}{ccc}&quot; }), 
+        i(1),
+        t({ &quot;&quot;, &quot;    \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;    &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;    \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;  \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;\\end{table}&quot; }),
+  }),
+
+  s({trig = &quot;figtab&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;    \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{tabular}{ccc}&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;itemtab&quot;, priority = 2000}, {
+    t(&quot;\\begin{tabular}{cc}&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{itemize}&quot; }), 
+        t({ &quot;&quot;, &quot;               \\item &quot; }), 
+        i(1),
+        t({ &quot;&quot;, &quot;    \\end{itemize}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatletter&quot; }), 
+        t({ &quot;&quot;, &quot;    \\def\\@captype{table}&quot; }), 
+        t({ &quot;&quot;, &quot;    \\makeatother&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\begin{tabular}{ccc}&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      &amp;   &amp;   \\\\&quot; }), 
+        t({ &quot;&quot;, &quot;      \\hline\\hline&quot; }), 
+        t({ &quot;&quot;, &quot;    \\end{tabular}&quot; }), 
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;\\end{tabular}&quot; }),
+  }),
+
+  s({trig = &quot;itemfig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+    t({ &quot;&quot;, &quot;    \\begin{itemize}&quot; }),
+    t({ &quot;&quot;, &quot;      \\item &quot; }),
+    t({ &quot;&quot;, &quot;    \\end{itemize}&quot; }),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;enufig&quot;, priority = 2000}, {
+    t(&quot;\\begin{figure}[H]&quot;), 
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+    t({ &quot;&quot;, &quot;    \\begin{enumerate}&quot; }),
+    t({ &quot;&quot;, &quot;      \\item &quot; }),
+    t({ &quot;&quot;, &quot;    \\end{enumerate}&quot; }),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot; }),
+    t({ &quot;&quot;, &quot;  \\begin{minipage}{0.5\\textwidth}&quot;}), 
+        t({ &quot;&quot;, &quot;    \\centering&quot; }), 
+        t({ &quot;&quot;, &quot;    \\caption{}&quot; }), 
+        i(1),
+    t({ &quot;&quot;, &quot;  \\end{minipage}&quot;}), 
+    t({ &quot;&quot;, &quot;\\end{figure}&quot; }),
+  }),
+
+  s({trig = &quot;vs&quot;, priority = 2000}, {
+    t(&quot;&quot;), 
+        t({ &quot;&quot;, &quot;\\vspace{-10pt}&quot; }), 
+        t({ &quot;&quot;, &quot;&quot;}), 
+        i(1),
+  }),
+
+  s({trig = &quot;col&quot;, priority = 2000}, {
+    t(&quot;\\textcolor{&quot;), 
+        i(1),
+    t(&quot;}{}&quot;), 
+  }),
+
+  s({trig = &quot;frac&quot;, priority = 2000}, {
+    t(&quot;\\frac{&quot;), 
+        i(1),
+    t(&quot;}{}&quot;), 
+  }),
+
+}</code></pre>
+<ul>
+<li>Fortran</li>
+</ul>
+<pre><code>&gt; vi snippets/fortran.lua</code></pre>
+<pre><code>local ls = require(&quot;luasnip&quot;)
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+
+return {
+  s(&quot;fmod&quot;, {
+    t({ &quot;module &quot; }), i(1, &quot;module_name&quot;),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;contains&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;&quot;, &quot;end module &quot; }), rep(1),
+  }),
+
+  s(&quot;fsub&quot;, {
+    t({ &quot;subroutine &quot; }), i(1, &quot;name&quot;), t(&quot;(&quot;), i(2, &quot;args&quot;), t({ &quot;)&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;end subroutine &quot; }), rep(1),
+  }),
+
+  s(&quot;func&quot;, {
+    t({ &quot;function &quot; }), i(1, &quot;name&quot;), t(&quot;(&quot;), i(2, &quot;args&quot;), t({ &quot;) &quot;}), t({ &quot;result()&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;end function &quot; }), rep(1),
+  }),
+
+  s(&quot;fprog&quot;, {
+    t({ &quot;program &quot; }), i(1, &quot;main&quot;),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;  implicit none&quot;, &quot;&quot; }),
+    t({ &quot;&quot;, &quot;  &quot; }), i(0),
+    t({ &quot;&quot;, &quot;&quot;, &quot;end program &quot; }), rep(1),
+  }),
+
+  s(&quot;fdo&quot;, {
+    t(&quot;do &quot;), i(0),
+    t({ &quot;&quot;, &quot;  &quot; }),
+    t({ &quot;&quot;, &quot;enddo&quot; }),
+  }),
+
+  s(&quot;fif&quot;, {
+    t(&quot;if (&quot;), i(1, &quot;condition&quot;), t({ &quot;) then&quot;, &quot;&quot; }),
+    t(&quot;  &quot;), i(0),
+    t({ &quot;&quot;, &quot;endif&quot; }),
+  }),
+
+  s(&quot;(&quot;, {
+    t(&quot;(/ &quot;), i(0), t({ &quot; /)&quot;}),
+  }),
+}</code></pre>
+<h2 id="latexmkrc">latexmkrc</h2>
+<p>以下のページ参照（<a
+href="autotexcompile.md">latexmkrcを用いたtexの自動コンパイル</a>）。</p>
+</body>
+</html>
