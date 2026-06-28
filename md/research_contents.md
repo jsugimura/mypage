@@ -62,22 +62,22 @@
       Kyoto University-ACS Publications Joint Forum: A New Horizon in Chemical Science and Engineering, 京都大学 桂キャンパス, 2026年5月25日, 70  \[査読なし\]  
       [ポスター](./slide/FY2026/ACSJoint_poster.pdf)
   - 高分子太陽電池に用いる2-エチルヘキシル置換シクロペンタジチオフェンをドナーユニットに用いたD-A-D連結体における精密構造解析  
-      ⚪︎山田健太, **杉村潤輝**, 鈴木航, 佐藤徹, 梅山有和  
+      ⚪︎山田 健太, **杉村 潤輝**, 鈴木 航, 佐藤 徹, 梅山 有和  
       第72回高分子研究発表会（関西）, 関西大学 千里山キャンパス, 2026年7月14日 \[査読なし\]
   - 高効率発光に向けたホスト材料の選択指針：構造類似性を示すホスト−ゲスト系における振電相互作用の抑制  
       ⚪︎**杉村 潤輝**, 藤原 絵美子, 春田 直毅, 大場 優生, 佐藤 徹  
       第16回CSJ化学フェスタ, タワーホール船堀, 2026年10月日 \[査読なし\]
 - 口頭発表
   - キュバン異性化反応におけるJahn–Teller効果  
-      ⚪︎**杉村 潤輝**、春田 直毅、竹邊 日和、松原 誠二郎、佐藤 徹  
+      ⚪︎**杉村 潤輝**, 春田 直毅, 竹邊 日和, 松原 誠二郎, 佐藤 徹  
       第18回分子科学討論会, 京都大学 吉田キャンパス, 2024年9月21日 4D13 \[査読なし\]  
       [要旨](./slide/FY2024/2024bunshikagaku_abstract.pdf)  [スライド](./slide/FY2024/2024bunshikagaku_slide.pdf)
   - キュバン異性化反応におけるJahn–Teller効果  
-      ⚪︎**杉村 潤輝**、春田 直毅、竹邊 日和、松原 誠二郎、佐藤 徹  
+      ⚪︎**杉村 潤輝**, 春田 直毅, 竹邊 日和, 松原 誠二郎, 佐藤 徹  
       日本化学会第105春季年会, 関西大学 千里山キャンパス, 2024年3月28日 [F]2205-3am-03 \[査読なし\]  
       [要旨](./slide/FY2024/2025nikkasyunki_abstract.pdf)  [スライド](./slide/FY2024/2025nikkasyunki_slide.pdf)
   - 2-エチルヘキシル置換シクロペンタジチオフェンの立体異性体分離およびドナー-アクセプター連結分子の精密構造解析  
-      ⚪︎山田健太, **杉村潤輝**, 春田直毅, 鈴木航, 佐藤徹, 梅山有和  
+      ⚪︎山田 健太, **杉村 潤輝**, 春田 直毅, 鈴木 航, 佐藤 徹, 梅山 有和  
       第36回基礎有機化学討論会, 金沢市文化ホール, 2026年月日　\[査読なし\]  
   - Selection Principle of Host Materials for Enhanced Luminescence: Suppression of Vibronic Coupling in Host–Guest Systems with Structural Similarity  
       ⚪︎**Junki Sugimura**, Emiko Fujiwara, Naoki Haruta, Yuki Oba, Tohru Sato  
