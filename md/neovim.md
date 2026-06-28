@@ -33,26 +33,26 @@
 
 ## インストール
 - brewによるインストール（[GitHub](https://lazy.folke.io/installation)）。
-    ```
-    > brew install neovim
-    
-    （中略）
-    
-    > nvim --version
-    NVIM v0.11.5
-    Build type: Release
-    LuaJIT 2.1.1765007043
-    Run "nvim -V1 -v" for more info
-    ```
+```
+> brew install neovim
+
+（中略）
+
+> nvim --version
+NVIM v0.11.5
+Build type: Release
+LuaJIT 2.1.1765007043
+Run "nvim -V1 -v" for more info
+```
 
 - 設定ファイルやプラグインを入れるためのディレクトリ作成。
-    ```
-    > cd .config
-    > mkdir nvim
-    > cd nvim
-    > mkdir -p lua/config
-    > mkdir -p lua/plugins
-    ```
+```
+> cd .config
+> mkdir nvim
+> cd nvim
+> mkdir -p lua/config
+> mkdir -p lua/plugins
+```
 
 ## 設定ファイル作成
 ### init.lua

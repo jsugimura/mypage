@@ -58,17 +58,26 @@
     └── tex.lua</code></pre>
 <h2 id="インストール">インストール</h2>
 <ul>
-<li><p>brewによるインストール（<a
-href="https://lazy.folke.io/installation">GitHub</a>）。 ``` &gt; brew
-install neovim</p>
-<p>（中略）</p>
-<blockquote>
-<p>nvim –version NVIM v0.11.5 Build type: Release LuaJIT 2.1.1765007043
-Run “nvim -V1 -v” for more info ```</p>
-</blockquote></li>
-<li><p>設定ファイルやプラグインを入れるためのディレクトリ作成。
-<code>&gt; cd .config   &gt; mkdir nvim   &gt; cd nvim   &gt; mkdir -p lua/config   &gt; mkdir -p lua/plugins</code></p></li>
+<li>brewによるインストール（<a
+href="https://lazy.folke.io/installation">GitHub</a>）。</li>
 </ul>
+<pre><code>&gt; brew install neovim
+
+（中略）
+
+&gt; nvim --version
+NVIM v0.11.5
+Build type: Release
+LuaJIT 2.1.1765007043
+Run &quot;nvim -V1 -v&quot; for more info</code></pre>
+<ul>
+<li>設定ファイルやプラグインを入れるためのディレクトリ作成。</li>
+</ul>
+<pre><code>&gt; cd .config
+&gt; mkdir nvim
+&gt; cd nvim
+&gt; mkdir -p lua/config
+&gt; mkdir -p lua/plugins</code></pre>
 <h2 id="設定ファイル作成">設定ファイル作成</h2>
 <h3 id="init.lua">init.lua</h3>
 <p>Neovimの設定ファイル。</p>
