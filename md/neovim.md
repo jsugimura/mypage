@@ -181,7 +181,7 @@ return {
 ```
 
 ### tabline
-bufferの表示（（[Github](https://github.com/kdheepak/tabline.nvim)））。
+bufferの表示（[Github](https://github.com/kdheepak/tabline.nvim)）。
 ```
 > vi lua/plugins/lualine.lua
 ```
@@ -370,7 +370,7 @@ return {
 - `Space + fh`: helpタグの表示
 
 ### コマンド補完機能
-- nvim-config（[GitHub](https://github.com/hrsh7th/nvim-cmp)）
+- nvim-config（[GitHub](https://github.com/hrsh7th/nvim-cmp)）  
 コマンドの補完エンジン。
 ```
 > vi lua/plugins/cmp.lua
@@ -440,128 +440,128 @@ return {
 ```
 
 - mason（[GitHub](https://github.com/mason-org/mason.nvim)）、
-  nvim-lspconfig（[GitHub](https://github.com/neovim/nvim-lspconfig)）
-    LSPサーバとそのNeovimへの接続。
-    ```
-    > vi lua/plugins/lsp.lua
-    ```
-    ```
-    return {
-      -- LSP サーバのインストーラ
-      {
-        "williamboman/mason.nvim",
-        config = function()
-          require("mason").setup()
-        end,
-      },
-    
-      -- mason と標準 LSP の橋渡し
-      {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = {
-          "williamboman/mason.nvim",
-          "neovim/nvim-lspconfig",  -- ここは「設定ファイル集」としてだけ使う
-          "hrsh7th/cmp-nvim-lsp",
+  nvim-lspconfig（[GitHub](https://github.com/neovim/nvim-lspconfig)）  
+LSPサーバとそのNeovimへの接続。
+```
+> vi lua/plugins/lsp.lua
+```
+```
+return {
+  -- LSP サーバのインストーラ
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end,
+  },
+
+  -- mason と標準 LSP の橋渡し
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",  -- ここは「設定ファイル集」としてだけ使う
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+			-- fortls の「initialization complete」だけを黙らせる
+		do
+		  local function is_fortls_init_complete(result, ctx)
+		    local client = vim.lsp.get_client_by_id(ctx.client_id)
+		    if not client or client.name ~= "fortls" then
+		      return false
+		    end
+		    local msg = (result and (result.message or result)) or ""
+		    msg = type(msg) == "string" and msg or ""
+		    return msg:match("initialization complete") ~= nil
+		  end
+		
+		  local orig_log = vim.lsp.handlers["window/logMessage"]
+		  vim.lsp.handlers["window/logMessage"] = function(err, result, ctx, config)
+		    if result and ctx and is_fortls_init_complete(result, ctx) then
+		      return
+		    end
+		    return orig_log(err, result, ctx, config)
+		  end
+		
+		  local orig_show = vim.lsp.handlers["window/showMessage"]
+		  vim.lsp.handlers["window/showMessage"] = function(err, result, ctx, config)
+		    if result and ctx and is_fortls_init_complete(result, ctx) then
+		      return
+		    end
+		    return orig_show(err, result, ctx, config)
+		  end
+		end
+
+      local mason_lspconfig = require("mason-lspconfig")
+
+      mason_lspconfig.setup({
+        ensure_installed = {
+          "pyright",   -- Python
+          -- "clangd",    -- C/C++
+          "lua_ls",    -- Lua（Neovim設定用）
+          "fortls",    -- Fortran
+          "texlab",    -- LaTeX
         },
-        config = function()
-    			-- fortls の「initialization complete」だけを黙らせる
-    		do
-    		  local function is_fortls_init_complete(result, ctx)
-    		    local client = vim.lsp.get_client_by_id(ctx.client_id)
-    		    if not client or client.name ~= "fortls" then
-    		      return false
-    		    end
-    		    local msg = (result and (result.message or result)) or ""
-    		    msg = type(msg) == "string" and msg or ""
-    		    return msg:match("initialization complete") ~= nil
-    		  end
-    		
-    		  local orig_log = vim.lsp.handlers["window/logMessage"]
-    		  vim.lsp.handlers["window/logMessage"] = function(err, result, ctx, config)
-    		    if result and ctx and is_fortls_init_complete(result, ctx) then
-    		      return
-    		    end
-    		    return orig_log(err, result, ctx, config)
-    		  end
-    		
-    		  local orig_show = vim.lsp.handlers["window/showMessage"]
-    		  vim.lsp.handlers["window/showMessage"] = function(err, result, ctx, config)
-    		    if result and ctx and is_fortls_init_complete(result, ctx) then
-    		      return
-    		    end
-    		    return orig_show(err, result, ctx, config)
-    		  end
-    		end
-    
-          local mason_lspconfig = require("mason-lspconfig")
-    
-          mason_lspconfig.setup({
-            ensure_installed = {
-              "pyright",   -- Python
-              -- "clangd",    -- C/C++
-              "lua_ls",    -- Lua（Neovim設定用）
-              "fortls",    -- Fortran
-              "texlab",    -- LaTeX
+        automatic_installation = true,
+      })
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      -- ★ 新しい書き方：vim.lsp.config + vim.lsp.enable
+
+      -- 共通能力を全サーバに適用
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+      })
+
+      -- 必要に応じて個別設定を上書き
+      vim.lsp.config("lua_ls", {
+        settings = {
+          Lua = {
+            diagnostics = {
+              globals = { "vim" },
             },
-            automatic_installation = true,
-          })
-    
-          local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    
-          -- ★ 新しい書き方：vim.lsp.config + vim.lsp.enable
-    
-          -- 共通能力を全サーバに適用
-          vim.lsp.config("*", {
-            capabilities = capabilities,
-          })
-    
-          -- 必要に応じて個別設定を上書き
-          vim.lsp.config("lua_ls", {
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" },
-                },
-              },
+          },
+        },
+      })
+
+      vim.lsp.config("texlab", {
+        settings = {
+          texlab = {
+            build = {
+              executable = "latexmk",
+              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+              onSave = false,
             },
-          })
-    
-          vim.lsp.config("texlab", {
-            settings = {
-              texlab = {
-                build = {
-                  executable = "latexmk",
-                  args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                  onSave = false,
-                },
-              },
-            },
-          })
-    			vim.lsp.config("fortls", {
-    			  cmd = {
-    			    "fortls",
-    			    "--hover_signature",
-    			    "--hover_language=fortran",
-    					"--lowercase_intrinsics",
-    			    -- "--use_signature_help",
-    			  },
-    			  filetypes = { "fortran" },
-    			  root_markers = { ".fortls", ".fortlsrc", ".fortls.json", ".git" },
-    			})
-    
-          -- 有効にするサーバ一覧
-          vim.lsp.enable({
-            "pyright",
-            -- "clangd",
-            "lua_ls",
-            "fortls",
-            "texlab",
-          })
-        vim.lsp.enable('stylua', false)
-        end,
-      },
-    }
-    ```
+          },
+        },
+      })
+			vim.lsp.config("fortls", {
+			  cmd = {
+			    "fortls",
+			    "--hover_signature",
+			    "--hover_language=fortran",
+					"--lowercase_intrinsics",
+			    -- "--use_signature_help",
+			  },
+			  filetypes = { "fortran" },
+			  root_markers = { ".fortls", ".fortlsrc", ".fortls.json", ".git" },
+			})
+
+      -- 有効にするサーバ一覧
+      vim.lsp.enable({
+        "pyright",
+        -- "clangd",
+        "lua_ls",
+        "fortls",
+        "texlab",
+      })
+    vim.lsp.enable('stylua', false)
+    end,
+  },
+}
+```
 
 ### indent-blackline（[GitHub](https://github.com/lukas-reineke/indent-blankline.nvim)）
 インデントの可視化。
@@ -589,8 +589,8 @@ return {
 }
 ```
 
-### luasnip（[GitHub](https://github.com/L3MON4D3/LuaSnip)）
-スニペット管理。
+### luasnip
+スニペット管理（[GitHub](https://github.com/L3MON4D3/LuaSnip)）。
 ```
 > vi lua/plugins/luasnip.lua
 ```
