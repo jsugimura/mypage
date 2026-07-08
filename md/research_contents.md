@@ -16,8 +16,10 @@
     - キュバン異性化反応におけるisostationary functionを用いた解析 (cubaneiso)
 - β–エストラジオールの発光効率向上に関する理論的研究 (estradiol)
 - BR-CPDT-CHOにおける<sup>1</sup>H NMRスペクトルの帰属 (cpdt)
-- ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
-- ハロゲン置換phenalenylラジカルの励起状態 (plyex)
+- 動的Jahn–Teller効果が関与するスペクトル計算 (dyjtspc)
+- フェナレニルラジカルのJahn–Teller効果 (phenalenyl radical)
+    - ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
+    - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
 - （Ta原子内包金クラスターTa@Au<sub>12</sub>のJahn–Teller効果）
 - （C<sub>60</sub>フラーレンの錯体形成）
 
