@@ -13,7 +13,7 @@
 ## 目次
 - [自己紹介](aboutme.html)  
 - [研究内容](research_contents.html)  
-- [日記的な](dialyric.md)
+- [日記的な](dialyric.html)
 - [Tips](tips.html)  
 - [自炊メモ](cooking.html)
 
