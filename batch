@@ -4,29 +4,41 @@ src_dir="./md"
 out_dir="./docs"
 
 mkdir -p "$out_dir"
-cp style.css "$out_dir/style.css"
+cp "./style.css" "$out_dir/style.css"
 
-find "$src_dir" -type f -name "*.md" | while read -r md; do
-  rel="${md#./}"
+find "$src_dir" -type f -name "*.md" -print0 |
+while IFS= read -r -d '' md; do
+  # md/ 以下での相対パス
+  rel="${md#"$src_dir"/}"
+
+  # 拡張子を .md から .html に変更
   html="${rel%.md}.html"
-  out="${out_dir}/${html}"
+
+  # 出力先
+  out="$out_dir/$html"
 
   mkdir -p "$(dirname "$out")"
 
-  # rel のディレクトリ部分
-  dir="$(dirname "$rel")"
+  # 出力HTMLから docs/style.css までの相対パス
+  rel_dir="$(dirname "$rel")"
 
-  # CSS への相対パスを決める
-  if [ "$dir" = "." ]; then
+  if [ "$rel_dir" = "." ]; then
     css_path="style.css"
   else
-    depth=$(echo "$dir" | awk -F/ '{print NF}')
+    depth=$(awk -F/ '{print NF}' <<< "$rel_dir")
     css_path=""
-    for i in $(seq 1 "$depth"); do
+
+    for ((i = 0; i < depth; i++)); do
       css_path="../$css_path"
     done
+
     css_path="${css_path}style.css"
   fi
 
-  pandoc "$md" -s -c "$css_path" -o "$out"
+  pandoc "$md" \
+    --standalone \
+    --css="$css_path" \
+    --output="$out"
+
+  echo "$md -> $out"
 done
