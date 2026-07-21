@@ -40,7 +40,7 @@ while IFS= read -r -d '' md; do
     --css="$css_path" \
     --output="$out"
 
-  echo "$md -> $out"
+#  echo "$md -> $out"
 done
 
 gitpush
