@@ -42,3 +42,5 @@ while IFS= read -r -d '' md; do
 
   echo "$md -> $out"
 done
+
+gitpush
