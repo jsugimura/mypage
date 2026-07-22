@@ -102,12 +102,11 @@
     - **Junki Sugimura**, Emiko Fujiwara, Naoki Haruta, Yuki Oba and Tohru Sato,  
       "Selection Principle of Host Materials for Enhanced Luminescence: Suppression of Vibronic Coupling in Host–Guest Systems with Structural Similarity",  
       *J. Mat. Chem. C*  
+
+- submitted
     - Kenta Yamada, **Junki Sugimura**, Naoki Haruta, Wataru Suzuki, Jun-ichi Nishida, Tohru Sato and Tomokazu Umeyama,  
      "Determination of side-chain absolute configuration reveals chirality-governed conformational landscapes in cyclopentadithiophene–quinoxaline systems",  
       *Chem. Sci.*
-
-- submitted
-
 
 - published
 
@@ -117,4 +116,4 @@
 [個人的有用リンク集](./useful.html)  
 [GitHub (現在非公開)](https://github.com/jsugimura/slide/tree/main)
 
-最終更新日: 2026年6月9日
+最終更新日: 2026年7月22日
