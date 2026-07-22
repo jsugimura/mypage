@@ -20,6 +20,7 @@
 - フェナレニルラジカルのJahn–Teller効果 (phenalenyl)
     - ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
     - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
+- （B80の光電子分光）
 - （Ta原子内包金クラスターTa@Au<sub>12</sub>のJahn–Teller効果）
 - （C<sub>60</sub>フラーレンの錯体形成）
 
