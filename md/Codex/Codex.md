@@ -1,8 +1,8 @@
 #ChatGPT #codex #AI #プログラミング
 
-[公式HP](https://chatgpt.com/ja-JP/overview/)
-[# OpenAI Codexの使い方を初心者向けに解説！特徴・料金・はじめ方まとめ](https://global-axis.jp/blog/openai-codex/)
-[# AIコーディングエージェント「Codex」とは？特長と使い方を実演で徹底解説](https://devlog.mescius.jp/ai-agent-codex-quickstart/)
+[公式HP](https://chatgpt.com/ja-JP/overview/)  
+[# OpenAI Codexの使い方を初心者向けに解説！特徴・料金・はじめ方まとめ](https://global-axis.jp/blog/openai-codex/)  
+[# AIコーディングエージェント「Codex」とは？特長と使い方を実演で徹底解説](https://devlog.mescius.jp/ai-agent-codex-quickstart/)  
 
 - ChatGPTのAIエージェント。
 - ローカルにインストールしてIDEやCLIを通じて使用することも、クラウド上で使用することも可能。
@@ -19,7 +19,7 @@
 
 ## インストール
 - ~~[公式HP](https://chatgpt.com/ja-JP/overview/)からインストーラをダウンロード、ChatGPTをインストール。~~  これにはCodex CLIは入っていない。
-- [公式HP](https://learn.chatgpt.com/docs/codex/cli#getting-started)でインストール方法を参照。
+- [公式HP](https://learn.chatgpt.com/docs/codex/cli#getting-started)でインストール方法を参照。  
 	```
 	> curl -fsSL https://chatgpt.com/codex/install.sh | sh
 	==> Installing Codex CLI
@@ -32,7 +32,7 @@
 	==> Future terminals: open a new terminal and run: codex
 	Codex CLI 0.146.0 installed successfully.
 	Start Codex now? [y/N] y
-	```
+	```  
 	```
 	> codex
 	> You are in /Users/sugimura/test/codex
@@ -43,7 +43,7 @@
 	  2. No, quit
 	  
 	  Press enter to continue
-	```
+	```  
 	```
 	╭───────────────────────────────────────────╮
 	│ >_ OpenAI Codex (v0.146.0)                │
@@ -57,7 +57,7 @@
 	› Run /review on my current changes
 	  gpt-5.6-sol default · ~/test/codex
 	```
-- ログイン状況確認
+- ログイン状況確認  
 	```
 	› /status
 		╭────────────────────────────────────────────────────────────╮
@@ -80,7 +80,7 @@
 
 ## 設定
 ### config.toml
-- `~/.codex/config.toml`に以下を追記。このファイルでは、Codexに与える技術的な権限を決める。
+- `~/.codex/config.toml`に以下を追記。このファイルでは、Codexに与える技術的な権限を決める。  
 	```
 	# ~/.codex/config.toml
 	
@@ -114,30 +114,30 @@
 - まずの設定はこんな感じ（[[AGENTS]]）。
 
 ## 主な操作方法
-- 開始、終了
+- 開始、終了  
 	```
 	> codex
 	› /exit
 	```
-	- exit後にトークン消費量が表示される。
+	- exit後にトークン消費量が表示される。  
 		```
 		Token usage: total=87,157 input=69,990 (+ 1,113,088 cached) output=17,167 (reasoning 2,657)
 		To continue this session, run codex resume 019fb09a-ce81-7dc1-a5b3-b33e96253609
 		```
-		- GPT-5.6 Solでは、100万トークンあたりで、
-			- 入力トークン: 125 クレジット
-			- キャッシュ入力トークン: 12.5 クレジット
-			- 出力トークン: 750 クレジット
-		- なので、
-			`0.069990 x 125 + 1.113088 x 12.5 + 0.017167 x 750 = 35.5376 クレジット`
-		- を消費したことになる。
-		- Plusでは、週次制限の1%程度に相当した。
-- 過去セッションの参照。
+		- GPT-5.6 Solでは、100万トークンあたりで、  
+			- 入力トークン: 125 クレジット  
+			- キャッシュ入力トークン: 12.5 クレジット  
+			- 出力トークン: 750 クレジット  
+		- なので、  
+			`0.069990 x 125 + 1.113088 x 12.5 + 0.017167 x 750 = 35.5376 クレジット`  
+		- を消費したことになる。  
+		- Plusでは、週次制限の1%程度に相当した。  
+- 過去セッションの参照。  
 	```
 	> codex resume
 	(参照したい過去ログを選択する)
 	```
-- 現在のセッションのconfigと、トークン使用量の確認
+- 現在のセッションのconfigと、トークン使用量の確認  
 	```
 	› /status
 	```

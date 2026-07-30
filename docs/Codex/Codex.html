@@ -28,10 +28,10 @@
 </head>
 <body>
 <p>#ChatGPT #codex #AI #プログラミング</p>
-<p><a href="https://chatgpt.com/ja-JP/overview/">公式HP</a> <a
-href="https://global-axis.jp/blog/openai-codex/"># OpenAI
-Codexの使い方を初心者向けに解説！特徴・料金・はじめ方まとめ</a> <a
-href="https://devlog.mescius.jp/ai-agent-codex-quickstart/">#
+<p><a href="https://chatgpt.com/ja-JP/overview/">公式HP</a><br />
+<a href="https://global-axis.jp/blog/openai-codex/"># OpenAI
+Codexの使い方を初心者向けに解説！特徴・料金・はじめ方まとめ</a><br />
+<a href="https://devlog.mescius.jp/ai-agent-codex-quickstart/">#
 AIコーディングエージェント「Codex」とは？特長と使い方を実演で徹底解説</a></p>
 <ul>
 <li>ChatGPTのAIエージェント。</li>
@@ -59,8 +59,8 @@ href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-cou
 href="https://chatgpt.com/ja-JP/overview/">公式HP</a>からインストーラをダウンロード、ChatGPTをインストール。</del>
 これにはCodex CLIは入っていない。</p></li>
 <li><p><a
-href="https://learn.chatgpt.com/docs/codex/cli#getting-started">公式HP</a>でインストール方法を参照。
-<code>&gt; curl -fsSL https://chatgpt.com/codex/install.sh | sh   ==&gt; Installing Codex CLI   ==&gt; Detected platform: macOS (Apple Silicon)   ==&gt; Resolved version: 0.146.0   ==&gt; Downloading Codex CLI   ==&gt; Installing standalone package to /Users/sugimura/.codex/packages/standalone/releases/0.146.0-aarch64-apple-darwin   ==&gt; /Users/sugimura/.local/bin is already on PATH   ==&gt; Current terminal: codex   ==&gt; Future terminals: open a new terminal and run: codex   Codex CLI 0.146.0 installed successfully.   Start Codex now? [y/N] y</code>
+href="https://learn.chatgpt.com/docs/codex/cli#getting-started">公式HP</a>でインストール方法を参照。<br />
+<code>&gt; curl -fsSL https://chatgpt.com/codex/install.sh | sh   ==&gt; Installing Codex CLI   ==&gt; Detected platform: macOS (Apple Silicon)   ==&gt; Resolved version: 0.146.0   ==&gt; Downloading Codex CLI   ==&gt; Installing standalone package to /Users/sugimura/.codex/packages/standalone/releases/0.146.0-aarch64-apple-darwin   ==&gt; /Users/sugimura/.local/bin is already on PATH   ==&gt; Current terminal: codex   ==&gt; Future terminals: open a new terminal and run: codex   Codex CLI 0.146.0 installed successfully.   Start Codex now? [y/N] y</code><br />
 ``` &gt; codex &gt; You are in /Users/sugimura/test/codex</p>
 <p>  Do you trust the contents of this directory? Working with untrusted
 contents comes with higher risk of prompt injection. Trusting the
@@ -76,13 +76,13 @@ model:     gpt-5.6-sol   /model to change │ │ directory: ~/test/codex  
 https://chatgpt.com/codex?app-landing-page=true</p>
 <p>› Run /review on my current changes   gpt-5.6-sol default ·
 ~/test/codex ```</p></li>
-<li><p>ログイン状況確認
+<li><p>ログイン状況確認<br />
 <code>› /status       ╭────────────────────────────────────────────────────────────╮       │  &gt;_ OpenAI Codex (v0.146.0)                                │       │                                                            │       │ Visit https://chatgpt.com/codex/settings/usage for up-to-date  │       │ information on rate limits and credits                     │       │                                                            │       │  Model:                gpt-5.6-sol (reasoning low, summaries auto) │       │  Directory:            ~/test/codex                        │       │  Permissions:          Workspace (Ask for approval)        │       │  Agents.md:            &lt;none&gt;                              │       │  Account:              &lt;mail address&gt;         (Plus)       │       │  Collaboration mode:   Default                             │       │  Session:              019fac9d-ae89-7030-bc0f-40d80bc5bb6f│       │                                                            │       │  Weekly limit:         [████████████████████] 100% left (resets 15:41 on 5 Aug) │       ╰────────────────────────────────────────────────────────────╯</code></p></li>
 </ul>
 <h2 id="設定">設定</h2>
 <h3 id="config.toml">config.toml</h3>
 <ul>
-<li><p><code>~/.codex/config.toml</code>に以下を追記。このファイルでは、Codexに与える技術的な権限を決める。
+<li><p><code>~/.codex/config.toml</code>に以下を追記。このファイルでは、Codexに与える技術的な権限を決める。<br />
 ``` # ~/.codex/config.toml</p>
 <p># 生成したコマンドについて、必要に応じて承認を求める approval_policy
 = “on-request”</p>
@@ -104,26 +104,33 @@ AIコーディングエージェント「Codex」とは？特長と使い方を�
 </ul>
 <h2 id="主な操作方法">主な操作方法</h2>
 <ul>
-<li>開始、終了 <code>&gt; codex   › /exit</code>
+<li>開始、終了<br />
+<code>&gt; codex   › /exit</code>
 <ul>
-<li>exit後にトークン消費量が表示される。
+<li>exit後にトークン消費量が表示される。<br />
 <code>Token usage: total=87,157 input=69,990 (+ 1,113,088 cached) output=17,167 (reasoning 2,657)   To continue this session, run codex resume 019fb09a-ce81-7dc1-a5b3-b33e96253609</code>
 <ul>
 <li>GPT-5.6 Solでは、100万トークンあたりで、
 <ul>
-<li>入力トークン: 125 クレジット</li>
-<li>キャッシュ入力トークン: 12.5 クレジット</li>
-<li>出力トークン: 750 クレジット</li>
+<li>入力トークン: 125 クレジット<br />
+</li>
+<li>キャッシュ入力トークン: 12.5 クレジット<br />
+</li>
+<li>出力トークン: 750 クレジット<br />
+</li>
 </ul></li>
-<li>なので、
-<code>0.069990 x 125 + 1.113088 x 12.5 + 0.017167 x 750 = 35.5376 クレジット</code></li>
-<li>を消費したことになる。</li>
-<li>Plusでは、週次制限の1%程度に相当した。</li>
+<li>なので、<br />
+<code>0.069990 x 125 + 1.113088 x 12.5 + 0.017167 x 750 = 35.5376 クレジット</code><br />
+</li>
+<li>を消費したことになる。<br />
+</li>
+<li>Plusでは、週次制限の1%程度に相当した。<br />
+</li>
 </ul></li>
 </ul></li>
-<li>過去セッションの参照。
+<li>過去セッションの参照。<br />
 <code>&gt; codex resume   (参照したい過去ログを選択する)</code></li>
-<li>現在のセッションのconfigと、トークン使用量の確認
+<li>現在のセッションのconfigと、トークン使用量の確認<br />
 <code>› /status</code>
 <ul>
 <li><code>Context window</code>とは、現在のセッションで保持できる情報量の目安。これが0%になっても利用停止となることはないが、古い情報を圧縮する必要が出て、以前の会話を参照しにくくなる可能性がある。</li>
