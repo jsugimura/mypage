@@ -33,6 +33,7 @@
 	Codex CLI 0.146.0 installed successfully.
 	Start Codex now? [y/N] y
 	```  
+
 	```  
 	> codex
 	> You are in /Users/sugimura/test/codex
