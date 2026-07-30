@@ -20,7 +20,7 @@
 ## インストール
 - ~~[公式HP](https://chatgpt.com/ja-JP/overview/)からインストーラをダウンロード、ChatGPTをインストール。~~  これにはCodex CLIは入っていない。
 - [公式HP](https://learn.chatgpt.com/docs/codex/cli#getting-started)でインストール方法を参照。  
-	```
+	```  
 	> curl -fsSL https://chatgpt.com/codex/install.sh | sh
 	==> Installing Codex CLI
 	==> Detected platform: macOS (Apple Silicon)
@@ -33,7 +33,7 @@
 	Codex CLI 0.146.0 installed successfully.
 	Start Codex now? [y/N] y
 	```  
-	```
+	```  
 	> codex
 	> You are in /Users/sugimura/test/codex
 	
@@ -44,7 +44,7 @@
 	  
 	  Press enter to continue
 	```  
-	```
+	```  
 	╭───────────────────────────────────────────╮
 	│ >_ OpenAI Codex (v0.146.0)                │
 	│                                           │
@@ -56,9 +56,9 @@
 	
 	› Run /review on my current changes
 	  gpt-5.6-sol default · ~/test/codex
-	```
+	```  
 - ログイン状況確認  
-	```
+	```  
 	› /status
 		╭────────────────────────────────────────────────────────────╮
 		│  >_ OpenAI Codex (v0.146.0)                                │
@@ -76,7 +76,7 @@
 		│                                                            │
 		│  Weekly limit:         [████████████████████] 100% left (resets 15:41 on 5 Aug) │
 		╰────────────────────────────────────────────────────────────╯
-	```
+	```  
 
 ## 設定
 ### config.toml
