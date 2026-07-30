@@ -45,6 +45,7 @@
 	  
 	  Press enter to continue
 	```  
+
 	```  
 	╭───────────────────────────────────────────╮
 	│ >_ OpenAI Codex (v0.146.0)                │
@@ -61,22 +62,22 @@
 - ログイン状況確認  
 	```  
 	› /status
-		╭────────────────────────────────────────────────────────────╮
-		│  >_ OpenAI Codex (v0.146.0)                                │
-		│                                                            │
-		│ Visit https://chatgpt.com/codex/settings/usage for up-to-date  │
-		│ information on rate limits and credits                     │
-		│                                                            │
-		│  Model:                gpt-5.6-sol (reasoning low, summaries auto) │
-		│  Directory:            ~/test/codex                        │
-		│  Permissions:          Workspace (Ask for approval)        │
-		│  Agents.md:            <none>                              │
-		│  Account:              <mail address>         (Plus)       │
-		│  Collaboration mode:   Default                             │
-		│  Session:              019fac9d-ae89-7030-bc0f-40d80bc5bb6f│
-		│                                                            │
+		╭─────────────────────────────────────────────────────────────────────────────────╮
+		│  >_ OpenAI Codex (v0.146.0)                                                     │
+		│                                                                                 │
+		│ Visit https://chatgpt.com/codex/settings/usage for up-to-date                   │
+		│ information on rate limits and credits                                          │
+		│                                                                                 │
+		│  Model:                gpt-5.6-sol (reasoning low, summaries auto)              │
+		│  Directory:            ~/test/codex                                             │
+		│  Permissions:          Workspace (Ask for approval)                             │
+		│  Agents.md:            <none>                                                   │
+		│  Account:              <mail address>         (Plus)                            │
+		│  Collaboration mode:   Default                                                  │
+		│  Session:              019fac9d-ae89-7030-bc0f-40d80bc5bb6f                     │
+		│                                                                                 │
 		│  Weekly limit:         [████████████████████] 100% left (resets 15:41 on 5 Aug) │
-		╰────────────────────────────────────────────────────────────╯
+		╰─────────────────────────────────────────────────────────────────────────────────╯
 	```  
 
 ## 設定
