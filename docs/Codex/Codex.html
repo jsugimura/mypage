@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Codex</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<p>#ChatGPT #codex #AI #プログラミング</p>
+<p><a href="https://chatgpt.com/ja-JP/overview/">公式HP</a> <a
+href="https://global-axis.jp/blog/openai-codex/"># OpenAI
+Codexの使い方を初心者向けに解説！特徴・料金・はじめ方まとめ</a> <a
+href="https://devlog.mescius.jp/ai-agent-codex-quickstart/">#
+AIコーディングエージェント「Codex」とは？特長と使い方を実演で徹底解説</a></p>
+<ul>
+<li>ChatGPTのAIエージェント。</li>
+<li>ローカルにインストールしてIDEやCLIを通じて使用することも、クラウド上で使用することも可能。</li>
+<li>ローカルにインストールした場合は、権限の設定が重要。適切に設定しないと、処理してほしくないデータやファイルを書き換えられたり、消去されたりする可能性があるので注意。</li>
+<li>GitHubとの連携機能あり。</li>
+<li>使用量の制限がある（<a
+href="https://chatgpt.com/ja-JP/codex/pricing/">公式HP</a>）。特に5時間ごとにメッセージやり取りに制限が設けられており、そのほかに週単位でもトークン上限がある。
+<ul>
+<li>次のような場合は、トークン消費量（<a
+href="https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them">トークンとは</a>）が多くなる可能性がある。
+<ul>
+<li>長い会話を続ける</li>
+<li>AGENTS.mdのファイルサイズが大きい</li>
+<li>大量の資料を読み込ませる</li>
+<li>モデルが高度である</li>
+</ul></li>
+</ul></li>
+<li>上限に近づいたら軽量モデル（GPT-5.4-miniなど）に切り替えると長く使える。</li>
+<li>いきなり本番のディレクトリ下で作業するよりも、まずはテストディレクトリ、ファイルを作って実行しましょう。</li>
+</ul>
+<h2 id="インストール">インストール</h2>
+<ul>
+<li><p><del><a
+href="https://chatgpt.com/ja-JP/overview/">公式HP</a>からインストーラをダウンロード、ChatGPTをインストール。</del>
+これにはCodex CLIは入っていない。</p></li>
+<li><p><a
+href="https://learn.chatgpt.com/docs/codex/cli#getting-started">公式HP</a>でインストール方法を参照。
+<code>&gt; curl -fsSL https://chatgpt.com/codex/install.sh | sh   ==&gt; Installing Codex CLI   ==&gt; Detected platform: macOS (Apple Silicon)   ==&gt; Resolved version: 0.146.0   ==&gt; Downloading Codex CLI   ==&gt; Installing standalone package to /Users/sugimura/.codex/packages/standalone/releases/0.146.0-aarch64-apple-darwin   ==&gt; /Users/sugimura/.local/bin is already on PATH   ==&gt; Current terminal: codex   ==&gt; Future terminals: open a new terminal and run: codex   Codex CLI 0.146.0 installed successfully.   Start Codex now? [y/N] y</code>
+``` &gt; codex &gt; You are in /Users/sugimura/test/codex</p>
+<p>  Do you trust the contents of this directory? Working with untrusted
+contents comes with higher risk of prompt injection. Trusting the
+directory allows project-local config, hooks, and exec policies to
+load.</p>
+<p>› 1. Yes, continue   2. No, quit</p>
+<p>  Press enter to continue <code></code>
+╭───────────────────────────────────────────╮ │ &gt;_ OpenAI Codex
+(v0.146.0)            │ │                                           │ │
+model:     gpt-5.6-sol   /model to change │ │ directory: ~/test/codex  
+                │ ╰───────────────────────────────────────────╯</p>
+<p>  Tip: Try the <strong>Desktop app</strong>. Run ‘codex app’ or visit
+https://chatgpt.com/codex?app-landing-page=true</p>
+<p>› Run /review on my current changes   gpt-5.6-sol default ·
+~/test/codex ```</p></li>
+<li><p>ログイン状況確認
+<code>› /status       ╭────────────────────────────────────────────────────────────╮       │  &gt;_ OpenAI Codex (v0.146.0)                                │       │                                                            │       │ Visit https://chatgpt.com/codex/settings/usage for up-to-date  │       │ information on rate limits and credits                     │       │                                                            │       │  Model:                gpt-5.6-sol (reasoning low, summaries auto) │       │  Directory:            ~/test/codex                        │       │  Permissions:          Workspace (Ask for approval)        │       │  Agents.md:            &lt;none&gt;                              │       │  Account:              &lt;mail address&gt;         (Plus)       │       │  Collaboration mode:   Default                             │       │  Session:              019fac9d-ae89-7030-bc0f-40d80bc5bb6f│       │                                                            │       │  Weekly limit:         [████████████████████] 100% left (resets 15:41 on 5 Aug) │       ╰────────────────────────────────────────────────────────────╯</code></p></li>
+</ul>
+<h2 id="設定">設定</h2>
+<h3 id="config.toml">config.toml</h3>
+<ul>
+<li><p><code>~/.codex/config.toml</code>に以下を追記。このファイルでは、Codexに与える技術的な権限を決める。
+``` # ~/.codex/config.toml</p>
+<p># 生成したコマンドについて、必要に応じて承認を求める approval_policy
+= “on-request”</p>
+<p># 作業領域内のみ書き込み可能 sandbox_mode = “workspace-write”</p>
+<p># Codex自身によるWeb検索も無効化 web_search = “disabled”</p>
+<p># シェルコマンドからのネットワーク通信を無効化
+[sandbox_workspace_write] network_access = false</p>
+<p># 子プロセスへ渡す環境変数を限定する [shell_environment_policy]
+include_only = [ “PATH”, “HOME”, “LANG”, “LC_ALL”, “TMPDIR” ]
+```</p></li>
+</ul>
+<h3 id="agents.md">AGENTS.md</h3>
+<ul>
+<li>グローバルな<code>~/.codex/AGENTS.md</code>とプロジェクトごとの<code>&lt;project&gt;/AGENTS.md</code>が作成可能。前者はどのプロジェクトでも読み込まれる。</li>
+<li>まずは、<code>~/.codex/AGENTS.md</code>を作成する。このファイルでは、Codexに守らせる作業方針・開発ルールを決める。この作成により実行時間やトークン消費量を抑えられることがある（<a
+href="https://devlog.mescius.jp/ai-agent-codex-quickstart/">#
+AIコーディングエージェント「Codex」とは？特長と使い方を実演で徹底解説</a>）。</li>
+<li>まずの設定はこんな感じ（[[AGENTS]]）。</li>
+</ul>
+<h2 id="主な操作方法">主な操作方法</h2>
+<ul>
+<li>開始、終了 <code>&gt; codex   › /exit</code>
+<ul>
+<li>exit後にトークン消費量が表示される。
+<code>Token usage: total=87,157 input=69,990 (+ 1,113,088 cached) output=17,167 (reasoning 2,657)   To continue this session, run codex resume 019fb09a-ce81-7dc1-a5b3-b33e96253609</code>
+<ul>
+<li>GPT-5.6 Solでは、100万トークンあたりで、
+<ul>
+<li>入力トークン: 125 クレジット</li>
+<li>キャッシュ入力トークン: 12.5 クレジット</li>
+<li>出力トークン: 750 クレジット</li>
+</ul></li>
+<li>なので、
+<code>0.069990 x 125 + 1.113088 x 12.5 + 0.017167 x 750 = 35.5376 クレジット</code></li>
+<li>を消費したことになる。</li>
+<li>Plusでは、週次制限の1%程度に相当した。</li>
+</ul></li>
+</ul></li>
+<li>過去セッションの参照。
+<code>&gt; codex resume   (参照したい過去ログを選択する)</code></li>
+<li>現在のセッションのconfigと、トークン使用量の確認
+<code>› /status</code>
+<ul>
+<li><code>Context window</code>とは、現在のセッションで保持できる情報量の目安。これが0%になっても利用停止となることはないが、古い情報を圧縮する必要が出て、以前の会話を参照しにくくなる可能性がある。</li>
+<li><code>/compact</code>によって、現在の会話を要約し、重要事項を残して<code>context window</code>の容量を確保することが可能。</li>
+</ul></li>
+</ul>
+</body>
+</html>

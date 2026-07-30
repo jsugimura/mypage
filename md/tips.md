@@ -4,6 +4,7 @@
 - [zsh](zsh.html)
 - [Neovim環境構築](neovim/neovim.html)
 - [latexmkrcを用いたtexの自動コンパイル](autotexcompile.html)
+- [Codex](Codex/Codex.html)
 
 ## アプリケーションやプログラムなど
 - [LAMMPS](lammps.html)

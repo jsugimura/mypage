@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AGENTS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+<h1 id="global-working-rules">Global working rules</h1>
+<h2 id="safety-boundaries">Safety boundaries</h2>
+<ul>
+<li>Work only inside the active project workspace.</li>
+<li>Do not inspect, search, list, read, modify, create, move, or delete
+files outside the active project workspace.</li>
+<li>Do not access parent directories of the active workspace.</li>
+<li>Do not access SSH keys, API keys, credentials, browser data, email,
+cloud-storage directories, shell history, or unrelated configuration
+files.</li>
+<li>Do not use network access or web search.</li>
+<li>Never use <code>sudo</code>.</li>
+<li>Never weaken or bypass the sandbox or approval policy.</li>
+<li>Never invoke Codex with <code>--yolo</code>,
+<code>--dangerously-bypass-approvals-and-sandbox</code>, or equivalent
+unrestricted options.</li>
+<li>Do not modify <code>~/.codex/config.toml</code>, global Git
+configuration, shell startup files, editor configuration, Homebrew
+configuration, or global package installations.</li>
+</ul>
+<h2 id="file-operations">File operations</h2>
+<ul>
+<li>Before modifying files, briefly state which files will change.</li>
+<li>Do not delete existing files unless the user explicitly requests
+it.</li>
+<li>Do not use <code>rm -rf</code>.</li>
+<li>Do not follow symbolic links that point outside the project.</li>
+<li>Keep temporary files inside the active project.</li>
+<li>Use project-local virtual environments and dependency
+directories.</li>
+</ul>
+<h2 id="development-workflow">Development workflow</h2>
+<ul>
+<li>Inspect the relevant project files before implementing changes.</li>
+<li>Make the smallest change that satisfies the request.</li>
+<li>Do not silently rewrite unrelated code.</li>
+<li>Run the project’s existing tests after making changes.</li>
+<li>Report failed tests honestly.</li>
+<li>At the end, summarize:
+<ol type="1">
+<li>files changed,</li>
+<li>commands executed,</li>
+<li>tests run,</li>
+<li>remaining concerns.</li>
+</ol></li>
+</ul>
+</body>
+</html>
