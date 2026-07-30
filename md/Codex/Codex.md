@@ -21,17 +21,17 @@
 - ~~[公式HP](https://chatgpt.com/ja-JP/overview/)からインストーラをダウンロード、ChatGPTをインストール。~~  これにはCodex CLIは入っていない。
 - [公式HP](https://learn.chatgpt.com/docs/codex/cli#getting-started)でインストール方法を参照。  
 	```  
-	> curl -fsSL https://chatgpt.com/codex/install.sh | sh
-	==> Installing Codex CLI
-	==> Detected platform: macOS (Apple Silicon)
-	==> Resolved version: 0.146.0
-	==> Downloading Codex CLI
-	==> Installing standalone package to /Users/sugimura/.codex/packages/standalone/releases/0.146.0-aarch64-apple-darwin
-	==> /Users/sugimura/.local/bin is already on PATH
-	==> Current terminal: codex
-	==> Future terminals: open a new terminal and run: codex
-	Codex CLI 0.146.0 installed successfully.
-	Start Codex now? [y/N] y
+	> curl -fsSL https://chatgpt.com/codex/install.sh | sh  
+	==> Installing Codex CLI  
+	==> Detected platform: macOS (Apple Silicon)  
+	==> Resolved version: 0.146.0  
+	==> Downloading Codex CLI  
+	==> Installing standalone package to /Users/sugimura/.codex/packages/standalone/releases/0.146.0-aarch64-apple-darwin  
+	==> /Users/sugimura/.local/bin is already on PATH  
+	==> Current terminal: codex  
+	==> Future terminals: open a new terminal and run: codex  
+	Codex CLI 0.146.0 installed successfully.  
+	Start Codex now? [y/N] y  
 	```  
 
 	```  
