@@ -124,7 +124,6 @@
 	- exit後にトークン消費量が表示される。  
 		```
 		Token usage: total=87,157 input=69,990 (+ 1,113,088 cached) output=17,167 (reasoning 2,657)
-		To continue this session, run codex resume 019fb09a-ce81-7dc1-a5b3-b33e96253609
 		```
 		- GPT-5.6 Solでは、100万トークンあたりで、  
 			- 入力トークン: 125 クレジット  
