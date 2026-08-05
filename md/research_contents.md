@@ -107,7 +107,7 @@
 - submitted
     - Kenta Yamada, **Junki Sugimura**, Naoki Haruta, Wataru Suzuki, Jun-ichi Nishida, Tohru Sato and Tomokazu Umeyama,  
      "Determination of side-chain absolute configuration reveals chirality-governed conformational landscapes in cyclopentadithiophene–quinoxaline systems",  
-      *Chem. Sci.*
+      *J. Mat. Chem. C*
 
 - published
 
