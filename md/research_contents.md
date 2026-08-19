@@ -20,6 +20,8 @@
 - フェナレニルラジカルのJahn–Teller効果 (phenalenyl)
     - ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
     - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
+- Co14MR
+- Cu6cluster
 - （B80の光電子分光）
 - （Ta原子内包金クラスターTa@Au<sub>12</sub>のJahn–Teller効果）
 - （C<sub>60</sub>フラーレンの錯体形成）
@@ -106,8 +108,8 @@
 
 - submitted
     - Kenta Yamada, **Junki Sugimura**, Naoki Haruta, Wataru Suzuki, Jun-ichi Nishida, Tohru Sato and Tomokazu Umeyama,  
-     "Determination of side-chain absolute configuration reveals chirality-governed conformational landscapes in cyclopentadithiophene–quinoxaline systems",  
-      *J. Mat. Chem. C*
+      "Determination of side-chain absolute configuration reveals chirality-governed conformational landscapes in cyclopentadithiophene–quinoxaline systems",  
+      *Chem. Eur. J.*
 
 - published
 
@@ -117,4 +119,4 @@
 [個人的有用リンク集](./useful.html)  
 [GitHub (現在非公開)](https://github.com/jsugimura/slide/tree/main)
 
-最終更新日: 2026年7月22日
+最終更新日: 2026年8月19日
