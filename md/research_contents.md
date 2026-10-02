@@ -22,7 +22,7 @@
     - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
 - Co-14MR
 - cu6snsh
-- N-methylporphyrine
+- nmeporph
 - （B80の光電子分光）
 - （Ta原子内包金クラスターTa@Au<sub>12</sub>のJahn–Teller効果）
 - （C<sub>60</sub>フラーレンの錯体形成）
