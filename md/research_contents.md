@@ -21,7 +21,8 @@
     - ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
     - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
 - Co-14MR
-- cu6cnsh
+- cu6snsh
+- N-methylporphyrine
 - （B80の光電子分光）
 - （Ta原子内包金クラスターTa@Au<sub>12</sub>のJahn–Teller効果）
 - （C<sub>60</sub>フラーレンの錯体形成）
@@ -97,7 +98,7 @@
 - [JST SPRING](./form/SPRING.pdf) (採用)</a>
 - [学振DC1](./form/Gakushin_DC1.pdf) (不採用)</a>
 - [学振DC2 1回目](./form/Gakushin_DC2.pdf) (不採用)</a>
-- [学振DC2 2回目](./form/Gakushin_DC2-2.pdf) ()</a>
+- [学振DC2 2回目](./form/Gakushin_DC2-2.pdf) (不採用)</a>
 
 
 ## 学術論文
@@ -119,4 +120,4 @@
 [個人的有用リンク集](./useful.html)  
 [GitHub (現在非公開)](https://github.com/jsugimura/slide/tree/main)
 
-最終更新日: 2026年8月19日
+最終更新日: 2026年10月2日
