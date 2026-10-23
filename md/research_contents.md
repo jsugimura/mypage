@@ -122,4 +122,4 @@
 [個人的有用リンク集](./useful.html)  
 [GitHub (現在非公開)](https://github.com/jsugimura/slide/tree/main)
 
-最終更新日: 2026年10月2日
+最終更新日: 2026年10月22日
