@@ -20,7 +20,7 @@
 - フェナレニルラジカルのJahn–Teller効果 (phenalenyl)
     - ハロゲン置換phenalenylラジカルのESRスペクトル (plyg)
     - ハロゲン置換phenalenylラジカルの励起状態 (plyex)
-- Co-14MR
+- Co14MR
 - cu6snsh
 - nmeporph
 - （B80の光電子分光）
