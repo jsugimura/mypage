@@ -95,7 +95,7 @@
   - Selection Principle of Host Materials for Enhanced Luminescence: Suppression of Vibronic Coupling in Host–Guest Systems with Structural Similarity  
       ⚪︎**Junki Sugimura**, Emiko Fujiwara, Naoki Haruta, Yuki Oba, Tohru Sato  
       第16回CSJ化学フェスタ, タワーホール船堀, 2026年10月21日 C2-29 \[査読なし\]
-  - Selection Principle of Host Materials for Enhanced Luminescence: Suppression of Vibronic Coupling in Host–Guest Systems with Structural Similarity  
+  - Highly Efficient Luminescence from Vibrational Frequency Matching in Host–Guest Systems  
       ⚪︎**Junki Sugimura**, Emiko Fujiwara, Naoki Haruta, Yuki Oba, Tohru Sato  
       日本化学会第107春季年会, 東京理科大学 野田キャンパス, 2027年3月日  \[査読なし\]
 
