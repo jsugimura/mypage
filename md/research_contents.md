@@ -98,6 +98,10 @@
   - Highly Efficient Luminescence from Vibrational Frequency Matching in Host–Guest Systems  
       ⚪︎**Junki Sugimura**, Emiko Fujiwara, Naoki Haruta, Yuki Oba, Tohru Sato  
       日本化学会第107春季年会, 東京理科大学 野田キャンパス, 2027年3月日  \[査読なし\]
+  - Effect of Side-Chain Chirality in A-D-A’-D-A-Type Non-Fullerene Acceptors Using 2-Ethylhexyl-Substituted Cyclopentadithiophene as the Donor Unit  
+      ⚪︎Kenta Yamada, **Junki Sugimura**, Naoki Haruta, Wataru Suzuki, Tohru Sato, Tomokazu Umeyama  
+      日本化学会第107春季年会, 東京理科大学 野田キャンパス, 2027年3月日  \[査読なし\]
+
 
 
 ## 各種申請書
